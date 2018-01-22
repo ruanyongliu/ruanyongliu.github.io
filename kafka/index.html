@@ -4,9 +4,10 @@
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <title>聊聊Kafka</title>
         <link rel="stylesheet" href="../markdown.css">
+        <link rel="stylesheet" href="../common.css">
     </head>
     <body>
-        <h3>聊聊Kafka</h3>
+        <h3><a href="/" style="text-decoration:none">..</a>/聊聊Kafka</h3>
         <div class="md-display markdown-body"></div>
         <div class="md-txt" style="display:none">
 
@@ -26,31 +27,34 @@ Kafka是一款分布式发布-订阅消息系统，由LinkedIn开发，现在是
 Kafka通过一个简单的、高可用的、语言无关的**TCP协议**连接使用这些API的客户端和Kafka服务端，这个协议是有版本的但保持向后兼容。
 
 ### 消息的存储：
-&emsp;Kafka用一个topic来表示一组已发布的消息流的名称或者说是类别。一般来说，一个topic会被一个或者多个消费者订阅。  
-&emsp;Kafka集群给每个topic维护着一组partition(如下图1)，一条消息只会被分配到其中的一个partition。一个partition内的这些消息按顺序地被添加进来，并分配一个id，实际是偏移量(offset), 不同partition的offset相互不影响。  
+&emsp;&emsp;Kafka用一个topic来表示一组已发布的消息流的名称或者说是类别。一般来说，一个topic会被一个或者多个消费者订阅。  
+&emsp;&emsp;Kafka集群给每个topic维护着一组partition(如下图1)，一条消息只会被分配到其中的一个partition。一个partition内的这些消息按顺序地被添加进来，并分配一个id，实际是偏移量(offset), 不同partition的offset相互不影响。  
 ![图1](http://upload-images.jianshu.io/upload_images/10223706-6ea9e75b6c2eb00c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 (图1 | copy from 官网)
 
 
-&emsp;Kafka会保存所有消息一定的时间，只有当当前的时间比消息上的timestamp超过一定的时长，消息才会被删除，而不是消息是否被消费过。事实上，Kafka并不会记录消息的被消费情况，那是各个消费者自己通过保存一个消费offset来记录的，所以Kafka并不知道消息是否被消费过。但是换个角度想，因为是消费者自己保存offset，所以只要消息还没过期被删除，消费者就可以随机读取，而不需要按顺序消费。  
-&emsp;partitions保证了Kafka的高可用性，一易于扩展，partition相互不影响，二增加并发能力。  
-&emsp;消费者自己保存offset的设计解耦了Kafka服务与消费者，Kafka是无状态的，消费者可以很容易地接入与离开，因为除了必要的拉取请求外，他完全不会影响到Kafka与其他消费者。  
-&emsp;物理存储上，每个partition对应一个逻辑日志，一个日志对应为一组大小相同的分段文件(如下图2)。每次一条消息被分布到一个partition上，Kafka为把消息追加到最后一个分段文件上，当追加到一定数量或者一段固定的时间后，文件会被写入磁盘。写完后，就可以公开到消费者。  
+&emsp;&emsp;Kafka会保存所有消息一定的时间，只有当当前的时间比消息上的timestamp超过一定的时长，消息才会被删除，而不是消息是否被消费过。事实上，Kafka并不会记录消息的被消费情况，那是各个消费者自己通过保存一个消费offset来记录的，所以Kafka并不知道消息是否被消费过。但是换个角度想，因为是消费者自己保存offset，所以只要消息还没过期被删除，消费者就可以随机读取，而不需要按顺序消费。  
+&emsp;&emsp;partitions保证了Kafka的高并发能力，一易于扩展，partition相互不影响，二增加并发能力。  
+&emsp;&emsp;消费者自己保存offset的设计解耦了Kafka服务与消费者，Kafka是无状态的，消费者可以很容易地接入与离开，因为除了必要的拉取请求外，他完全不会影响到Kafka与其他消费者。  
+&emsp;&emsp;物理存储上，每个partition对应一个逻辑日志，一个日志对应为一组大小相同的分段文件(如下图2)。每次一条消息被分布到一个partition上，Kafka为把消息追加到最后一个分段文件上，当追加到一定数量或者一段固定的时间后，文件会被写入磁盘。写完后，就可以公开到消费者。  
 ![图2 | copy from infoq](http://upload-images.jianshu.io/upload_images/10223706-a8892d8fe0757dc1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
-(图2 | copy from infoq)
+图2 | copy from infoq)
 
 
 ### 分布式
-&emsp;所有partition会分布在集群的不同broker节点上。每个partition又会被复制成多份分布在不同的broker节点上，其中一份充当这个partition的Leader节点，剩下的为Follower节点。一旦Leader宕机，会进行选举，从Follower选出新的Leader节点。  
-&emsp;Leader维护了这个partition所有的可用Follower的列表，这个列表称为ISR。消息的发布只会通知到的Leader节点，Leader一旦写入日志，Follower就开始拉取进行复制，复制成功后发送ACK到Leader。一旦Follower落后Leader超过一定的延迟时间，Leader就会将这个Follower移除ISR。一条消息能被消费，必需要所有ISR的Follower都确认写入。  
-&emsp;一般会结合使用ZooKeeper来实现节点间协调问题。
+&emsp;&emsp;所有partition会分布在集群的不同broker节点上。每个partition又会被复制成多份分布在不同的broker节点上，其中一份充当这个partition的Leader节点，剩下的为Follower节点。一旦Leader宕机，会进行选举，从Follower选出新的Leader节点。  
+&emsp;&emsp;Leader维护了这个partition所有的可用Follower的列表，这个列表称为ISR。消息的发布只会通知到的Leader节点，Leader一旦写入日志，Follower就开始拉取进行复制，复制成功后发送ACK到Leader。一旦Follower落后Leader超过一定的延迟时间，Leader就会将这个Follower移除ISR。一条消息能被消费，必需要所有ISR的Follower都确认写入。  
+&emsp;&emsp;一般会结合使用ZooKeeper来实现节点间协调问题。
 
 ### 数据的保证
+&emsp;&emsp;之前说过，一个topic会被分为多个partition存储在不同的broker，并且每个partition都会被复制一定数量的副本存储在另外的broker，所以系统是错误可容忍的。一旦一个机器出现了故障，结果无非是某些partition重新进行Leader选举，或者从ISR去除相应的Follower罢了。  
+&emsp;&emsp;消息从生产者发送到公开到消费者期间这个过程，可以简单地分为两段——第一段：在内存中追加，落盘，返回ACK到生产者；第二段：Follower并行复制，通知到消费者。那么如果Leader节点在第一段的过程中发生问题，服务会向生产者客户端返回写失败，不考虑拜占庭问题的情况下，我们可以认为消息实际是没有丢失的。如果错误发生在第二段，会重新选举Leader，此时会选出已经复制最多的Follower作为新Leader，所以只要有一个Follower复制完成，数据仍然是完整的。因此只有在Leader节点写入磁盘，并且Follower节点都没有复制完成的情况下宕机，数据才有可能出现丢失，因此Kafka的可靠性是非常高的!  
+&emsp;&emsp;Kafka的数据实际最终是存储在硬盘上的，但是借用文件系统的PageCache技术进行了优化。当然有可能存在PageCache领先硬盘的情况下发生宕机，但正如上面所说，只要有Follower节点，Kafka的数据是不怕丢的。
 
 ###### 待续...
 
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
         <script>
             $(document).ready(function(){

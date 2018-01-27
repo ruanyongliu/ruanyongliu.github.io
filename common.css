@@ -5,3 +5,12 @@ h3 {
 h3 a {
     text-decoration: none
 }
+
+ul.list {
+    padding-left: 0px;
+}
+
+ul.list li {
+    margin-bottom: 3px;
+    list-style-type: none
+}

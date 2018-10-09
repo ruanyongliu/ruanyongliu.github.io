@@ -65,7 +65,7 @@ Kafka通过一个简单的、高可用的、语言无关的**TCP协议**连接�
 * request.required.acks=0/1/-1，producer与broker的同步机制，数据健壮性和时延依次递增。0表示producer与broker不同步，如果在Follower复制成功之前Leader节点宕机，数据就丢失；1表示在Leader节点写入完毕后，broker向producer确认，那么如之前所说，如果Leader写入完毕，同时所有Follower都没有复制完成时Leader节点宕机，数据才会丢失；-1表示Follower节点也写入完毕后，broker向producer确认，此时数据不会丢失。机制的选择很大程度上依赖业务对各方面的SLA需求，在时延和数据健壮性上做权衡。  
 还有很多配置，这里也不一一详说了，大家可以上官网查询一下，选择最合适的方式来部署自己的Kafka集群。
 
-###### 感谢阅读！
+###### 感谢大家的阅读，Kafka的介绍暂时到这里。文中不免有错的地方，欢迎指出。感谢！
 
                     </div>
                 </div>

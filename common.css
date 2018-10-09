@@ -1,22 +1,46 @@
-h3 {
+.home-list {
+    background-color: #F5F5F5;
+}
+.home-list .panel {
+    border-width: 0px;
+    padding: 10px 20px;
+}
+.home-list .head {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 10px 10px #DDDDDD;
+    padding: 30px 20px;
+}
+.home-list .head h2 {
+    font-weight: bold;
+}
+.home-list .list {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    box-shadow: 0px 0px 5px 5px #DDDDDD;
+    padding: 10px 30px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
-
-h3 a {
-    text-decoration: none
+.home-list .list:hover {
+    background-color: Azure;
+}
+.home-list .list h4 a {
+    color: Black;
+    font-weight: bold;
+}
+.home-list .list h4 a:hover {
+    color: Crimson;
+    text-decoration: none;
+}
+.home-list .list span {
+    color: Darkgrey;
 }
 
-.container {
-    max-width: 1000px;
+.in-page {
+    background-color: #F5F5F5;
 }
-.head,.list {
-    padding: 1px 10px;
-}
-ul.list li {
-    list-style-type: none;
-    font-size: 18px;
-}
-ul.list span {
-    color: grey;
-    font-size: 12px;
+.in-page .panel {
+    margin-top: 20px;
+    border-width: 0px;
+    box-shadow: 0px 0px 10px 10px #DDDDDD;
 }

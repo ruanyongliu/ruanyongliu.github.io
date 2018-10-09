@@ -5,16 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>快速搭建一个play服务</title>
         <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../markdown.css">
-        <link rel="stylesheet" href="../common.css">
+        <link rel="stylesheet" href="/markdown.css">
+        <link rel="stylesheet" href="/common.css">
     </head>
-    <body>
-        <div class="container">
-            <div class="panel panel-warning">
-                <div class="panel-heading"><a href="/" style="text-decoration:none">HOME</a> / 快速搭建一个play服务</div>
-                <div class="panel-body">
-                    <div class="md-display markdown-body"></div>
-                    <div class="md-txt" style="display:none">
+    <body class="in-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel col-md-8 col-md-offset-2">
+                    <div class="panel-body">
+                        <div class="page-header">
+                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / 快速搭建一个play服务</h4>
+                        </div>
+                        <div class="md-display markdown-body"></div>
+                        <div class="md-txt" style="display:none">
 Play是一个轻量级的web框架，基于akka。这里不重点深入，也会隐去细节，简单提供一个基于sbt & scala构建的搭建步骤。  
 如需深入学习，建议阅读官网wiki。
 ##### 开始吧
@@ -331,7 +334,8 @@ class MyController @Inject()(cc: ControllerComponents) extends AbstractControlle
 若需要正式上线，则使用```sbt assembly```编译成一个jar包(```target/scala-2.11/$name-assembly-$version.jar```)，再部署(```java -jar $name-assembly-$version.jar```)在容器上。  
 
 ##### 至此，服务应该就能成功启动了，默认端口为9000，访问host:9000即可。  
-###### 感谢阅读。
+###### 感谢阅读。文中不免有错的地方，欢迎指出。感谢！
+                        </div>
                     </div>
                 </div>
             </div>

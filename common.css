@@ -10,6 +10,8 @@
     margin-bottom: 10px;
     box-shadow: 0px 0px 10px 10px #DDDDDD;
     padding: 30px 20px;
+    background-color: #404040;
+    color: White;
 }
 .home-list .head h2 {
     font-weight: bold;
@@ -18,11 +20,8 @@
     margin-top: 10px;
     margin-bottom: 0px;
     box-shadow: 0px 0px 5px 5px #DDDDDD;
-    padding: 10px 30px;
+    padding: 10px 20px;
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-.home-list .list:hover {
-    background-color: Azure;
 }
 .home-list .list h4 a {
     color: Black;
@@ -35,12 +34,33 @@
 .home-list .list span {
     color: Darkgrey;
 }
+.home-list .list hr {
+    border-color: Darkgrey;
+}
 
 .in-page {
     background-color: #F5F5F5;
 }
-.in-page .panel {
+.in-page .page {
     margin-top: 20px;
     border-width: 0px;
     box-shadow: 0px 0px 10px 10px #DDDDDD;
+}
+.in-page .nav {
+    margin-top: 20px;
+    margin-left: 20px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    border-width: 0px;
+}
+.in-page .nav a {
+    padding: 2px 15px;
+}
+.in-page .nav .active a {
+    color: Crimson
+}
+.in-page .nav .divider {
+    color: DarkGrey;
+    padding-left: 15px;
+    padding-top: 10px;
 }

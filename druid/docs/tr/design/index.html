@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>[译]Druid文档</title>
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/markdown.css">
+        <link rel="stylesheet" href="/common.css">
+    </head>
+    <body class="in-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel page col-md-8 col-md-offset-1">
+                    <div class="panel-body">
+                        <div class="page-header">
+                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / Druid简介</h4>
+                        </div>
+                        <div class="md-display markdown-body"></div>
+                        <div class="md-txt" style="display:none">
+
+Druid设计实现对大数据集合做高性能任意组合交叉分析统计(OLAP形式)的数据存储。常用在统计分析图形界面工具的数据存储，或者是提供高效聚合计算能力和高度并行能力的API的后端。常用的领域包括：
+- 点击流的统计
+- 网络流量统计
+- 服务指标统计
+- 应用性能统计
+- 数字营销统计
+- 商业智能/OLAP
+
+Druid的主要特点有：
+1. **按列存储**。Druid使用列存储。在查询是只需加载所需的列，因此如果只加载很少列的情况下速度有很大的提升。除此以外，一般每列的类型是一样的，因此可以针对性做优化，满足快速的读取和聚合。
+2. **可扩展性分布式系统**。Druid部署在数十到数百台机器的集群上，处理每秒数百万的记录，保留数万亿条记录，和提供秒级的查询。
+3. **MPP架构**。在集群上并行处理查询请求。
+4. **实时或批量的数据导入**。并且实时的导入可以立刻被查询。
+5. **自我修复，自我均衡，易操作**。作为一个操作者，扩展或缩减集群，只需要简单地添加或删除服务器，集群就会自动重新自我平衡，而且不需要后端的下线。如果有服务器失败，系统会自动重新路由绕过损坏的机器直到可被替代。Druid的设计实现了什么原因都不需要下线，7x24小时持续运行，包括配置更改和软件升级。
+6. **云本地，容错结构保证不丢失数据**。一旦Druid导入了你的数据，一份副本就会安全地保存在深度存储中(一般是云存储、HDFS或一个共享文件系统)。即使任何单个节点失败，数据也能从深度存储恢复。对应仅影响一小部分机器的有限错误，复制机制保证了当系统恢复了查询可能仍然有效。
+7. **用于快速过滤的索引**。Druid使用CONCISE或者Roaring压缩位图索引算法来创建索引，可以跨多列进行快速过滤和搜索。
+8. **近似算法**。Druid提供用于近似不同计数、近似排序、近似直方图和分位数的算法。这些算法使用有限的内存和比精确计算更少的时间。对于精确度比速度更重要的场景，Druid也提供精确计数和排序的算法。
+9. **按插入时间的数据汇总**。Druid支持在插入时间时数据汇总。这部分汇总预聚合你的数据，可以导致大的成本节约和性能提升。
+
+### 什么时候用Druid
+对于下面描述的场景，Druid可能是一个很好的选择：
+- 数据插入速度快，但不常更新。
+- 大部分的查询是聚合报告查询，也可以是搜索和扫描查询。
+- 查询的延迟在毫秒到秒级。
+- 数据有时间模块(Druid的优化和设计与时间关联)。
+- 你可能有多个数据表，但是所有的查询都围绕一个大的分布式表，偶尔需要几个小的查询表。
+- 你有几个大基数的数据列(如url和用户id)，需要快速计数和排序。
+- 你希望从Kafka、HDFS、文件或object存储，如Amazon S3加载数据。
+
+不适合Druid的场景：
+- 需要低延迟的更新操作。Druid支持流式插入，但不支持流式更新(更新使用批量作业)。
+- 搭建一个离线报告系统，查询效率不是非常重要。例如两个大的事实表进行联结(Join)。
+
+### 架构
+Druid有一个多进程分布式架构，云友好，易操作。每个进程类型可以单独配置和扩展，针对你的集群提供最大的灵活性。这样的设计还有很好的容错性：一个零部件的离线不会马上影响到其他部件。
+Druid的进程包括：
+- **Historical**进程是处理存储层和查询历史数据(包括在系统里已经提交的流式数据)的工作站。Historical进程从深度存储介质下载segment，返回给相关请求。他们不会处理写操作。
+- **MiddleManager**进程将新数据导入集群。他们负责从外部介质读入数据，并生成新的Druid segments。
+- **Broker**接收查询请求，转化至Historical或者MiddleManager进程。然后将从这些进程返回的数据合并返回给调用者。用户一般会通过Broker查询而不是直接查询Historical或者MiddleManager进程。
+- **Coordinator**负责观察Historical进程，把segments分配给特定的机器，保证segment在Historical进程中足够均衡。
+- **Overlord**负责观察MiddleManager进程，是数据导入的控制层。他们负责给MiddleManager进程分配导入任务，协调segment生成。
+- **Router**进程。可选。用于给Brokers、Overloads和Coordinators提供一个唯一的API网关。也可以不使用而直接访问以上进程。
+
+Druid的进程可以单独部署(每个进程单独一个物理服务器，虚拟服务器或者虚拟容器), 或者共同部署在共享服务器上。一个共同部署的计划可以是：
+- **Data**服务，执行Historical和MiddleManager进程
+- **Query**服务，执行Broker和Router(可选)进程
+- **Master**服务，执行Coordinator和Overlord进程。也可以使用zk服务。
+
+除了这三类进程，Druid还需要三种外部依赖。这些依赖都用的现有的基础设施。
+- **深度存储**。共享文件存储并所有Druid服务可访问。通常会使用一个分布式object存储，如S3或者HDFS，或者一个网络安装文件系统。Druid使用这次存储介质存储已经导入哪些系统的数据。
+- **元数据存储**。共享元数据存储。通常会使用传统的RDBMS(关系型数据库管理系统), 如PostgreSQL或者MySQL。
+- **ZooKeeper**。用于内部服务发现、协作和主节点选举
+
+这套架构背后的思路就是使得线上Druid集群方便扩展。例如，深度存储和元数据存储的分离意味着Druid进程完全地实现容错——即使单个Druid节点失败，你还能够重新分别根据深度存储和元数据存储的数据来启动你的集群。
+下图展示了一个请求来到时这个架构的数据流向：
+![](http://druid.io/docs/img/druid-architecture.png)
+
+### Datasources and segments
+Druid数据保存在"datasource"，类似于传统关系型数据库的表(Table)。每个datasource按时间分割，也可以按更多的属性来分割。每段时间被称为一个chunk(例如一天，如果你的datasource按天分割的话)。一个chunk里的数据被分为一到多个的segment。每个segment是一个单独的文件，一般包含数百万行数据。由于segment按时间组织，可以想象segment是如下安排在一个时间轴上的：
+![](http://druid.io/docs/img/druid-timeline.png)
+一个datasource可以由少至几个，多至数百数千甚至几百万个segment组成。每个segment刚被MiddleManager创建之时，是可修改和未提交的状态。这些segment的生成包括三个步骤，来保证创建的文件是紧凑的，并且支持快速查询：
+- 转化成列存储
+- 利用位图索引够构建索引
+- 多种压缩算法:
+  - 对于字符串使用id存储最小化的字典编码
+  - 对于位图索引使用位图压缩
+  - 所有列使用Type-aware压缩
+
+segment会周期第进行提交和生成。这个时候他们会写到深度存储，变成不能修改，从Historical进程移到MiddleManagers进程。segment的记录也更新到元数据存储。这个记录描述segment的结构、大小和在深度存储的坐标。这些记录是告诉Coordinator进程数据在集群的哪里。
+
+### 查询过程
+查询请求首先会进到Broker，Broker会根据时间或者datasource额外设的属性来分析需要哪些segment。然后分析这些segment分别是由Historical或者MiddleManager进程来处理，进而发起子查询给对应的进程。Historical/MiddleManager进程接收子查询，处理和返回结果。Broker接收到这些结果后合并成一个最终的结果返回给调用者。  
+Broker裁剪是一个Druid限制扫描数据量的重要方法，但不是唯一方法。对于比Broker裁剪更细粒度的过滤，每个segment的索引结构允许Druid在查看所有行之前识别哪些(有的话)行匹配这些过滤器。一旦Druid知道哪些行匹配一个特定查询，就只需要访问特定的列。在这些列中，Druid可以逐行跳过，防止读到不匹配的列。
+因此Druid使用三种不同的技术来提供查询的效率：
+- 裁剪每个查询需要访问的segment
+- 对于每个segment, 使用索引来识别哪些行需要访问
+- 对于每个segment, 只读取这个查询相关的行和列
+
+### 外部依赖
+##### 深度存储
+Druid使用深度存储只是作为一个数据备份容器和各进程间的数据通路。对于查询的请求响应，Historical不会读深度存储，而是已经在查询处理前预加载至本地的segment。这意味着Druid不需要在查询时访问深度存储，使得查询的效率足够高。回过来也意味着在深度存储和跨Historical进程时，需要有足够的硬盘空间用于计划加载的数据。  
+详情可查看[深度存储依赖](http://druid.io/docs/latest/dependencies/deep-storage.html)
+##### 元数据存储
+元数据存储保存各种系统元数据，如segment可用性信息和任务信息。  
+详情可查看[元数据存储依赖](http://druid.io/docs/latest/dependencies/metadata-storage.html)
+##### Zookeeper
+Druid使用zk来管理集群状态  
+详情可查看[zk依赖](http://druid.io/docs/latest/dependencies/zookeeper.html)
+
+###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
+                        </div>
+                    </div>
+                </div>
+                <div class="panel nav col-md-2">
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
+        <script src="/js/Druid.js"></script>
+        <script>
+            $(document).ready(function(){
+                $(".md-display").html(marked($(".md-txt").text()))
+            })
+            DocsTr.navRender("design")
+        </script>
+    </body>
+</html>

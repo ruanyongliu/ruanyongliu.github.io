@@ -8,7 +8,8 @@ DocsTr = {
         [
             ["tutorials", "Quickstart"],
             ["tutorials/tutorial-batch", "加载文件"],
-            ["tutorials/tutorial-kafka", "从Kafka加载流式数据"]
+            ["tutorials/tutorial-kafka", "从Kafka加载流式数据"],
+            ["tutorials/tutorial-batch-hadoop", "使用Hadoop加载批量数据"]
         ], 
         [
             ["ingestion", "简介"]

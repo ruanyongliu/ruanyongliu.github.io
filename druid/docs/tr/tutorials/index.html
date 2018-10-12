@@ -77,7 +77,7 @@ java `cat examples/conf/druid/middleManager/jvm.config | xargs` -cp "examples/co
 java `cat examples/conf/druid/broker/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/broker:lib/*" io.druid.cli.Main server broker
 ```
 一旦所有服务启动了，就可以开始加载数据了
-#### 重置Druid状态
+#### &lt;a id="resetting-cluster-state" class="anchor"&gt;重置Druid状态&lt;/a&gt;
 所有持久状态，如集群元数据存储和segment会保存在`druid-0.12.3`的`var`目录。  
 因此之后如果你想停掉服务，使用`Ctrl-C`关闭执行中的java进程。如果想重新启动一个干净的环境，删除`log`和`var`目录，执行`init`脚本，然后停掉Zookeeper，删除ZooKeeper的数据目录`/tmp/zookeeper`  
 

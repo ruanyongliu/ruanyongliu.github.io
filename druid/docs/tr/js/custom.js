@@ -45,6 +45,10 @@ DocsTr = {
                         {
                             display: "教程：Rollup",
                             url: "tutorials/tutorial-rollup"
+                        },
+                        {
+                            display: "教程：保留配置",
+                            url: "tutorials/tutorial-retention"
                         }
                     ]
                 }

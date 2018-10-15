@@ -49,6 +49,10 @@ DocsTr = {
                         {
                             display: "教程：保留配置",
                             url: "tutorials/tutorial-retention"
+                        },
+                        {
+                            display: "教程：更新现有数据",
+                            url: "tutorials/tutorial-update-data"
                         }
                     ]
                 }

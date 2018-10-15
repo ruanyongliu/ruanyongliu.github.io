@@ -1,23 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / 数据导入 / 简介 </h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
 ### Datasources and segments
 Druid数据保存在"datasource"，类似于传统关系型数据库的表(Table)。每个datasource按时间分割，也可以按更多的属性来分割。每段时间被称为一个chunk(例如一天，如果你的datasource按天分割的话)。一个chunk里的数据被分为一到多个的segment。每个segment是一个单独的文件，一般包含数百万行数据。由于segment按时间组织，可以想象segment是如下安排在一个时间轴上的：
 ![](http://druid.io/docs/img/druid-timeline.png)
@@ -32,7 +12,7 @@ Druid数据保存在"datasource"，类似于传统关系型数据库的表(Table
 
 segment会周期第进行提交和生成。这个时候他们会写到深度存储，变成不能修改，从Historical进程移到MiddleManagers进程。segment的记录也更新到元数据存储。这个记录描述segment的结构、大小和在深度存储的坐标。这些记录是告诉Coordinator进程数据在集群的哪里。
 
-更详细的segment文件描述，请访问[segment文件](http://druid.io/docs/0.12.3/design/segments.html)
+更详细的segment文件描述，请访问[segment文件](/TODO)
 
 #### Segment 标识符
 segment标识符分为4个部分，分别是：
@@ -83,7 +63,7 @@ Coordinator / Historical端的工作机制:
 ### 导入方法
 对于大部分导入方法，导入是在MiddleManager节点完成的。一个例外就是基于Hadoop的导入，是通过一个运行在Yarn的Hadoop MapReduce作业完成的(虽然MiddleManager会参与启动和监控Hadoop作业)。  
 一旦segment被生成和写进深度存储，他就会被Druid的Historical节点加载。一些Druid导入方法支持实时查询，意思就是你可以查询刚刚被导入还没被写进深度存储的实时数据。一般对比Historical节点的大量数据相比，MiddleManager会有少量数据处于运行中。  
-更详细的Druid如何对数据存储和管理的描述，请阅读[Druid简介](/druid/docs/tr/design)  
+更详细的Druid如何对数据存储和管理的描述，请阅读[Druid简介](#!/design)  
 下表列举了Druid常见的数据导入方法，通过比较可以帮你选择最好的方法:
 
 方法 | 工作方式 | 追加或重写? | 能否处理过去的数据 | 数据只插入一次? | 实时查询?
@@ -160,21 +140,4 @@ kill任务删除掉深度存储和元数据存储上指定的不可使用的segm
 详情请参考[kill任务](/TODO)  
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("ingestion")
-        </script>
-    </body>
-</html>
+

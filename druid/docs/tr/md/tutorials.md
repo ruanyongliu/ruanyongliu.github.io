@@ -1,23 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / 部署教程 / Quickstart</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
 本章会介绍一个快速简单的单点方案，加载一些数据，并且进行查询。
 ### 前提
 - Java 8+
@@ -77,7 +57,7 @@ java `cat examples/conf/druid/middleManager/jvm.config | xargs` -cp "examples/co
 java `cat examples/conf/druid/broker/jvm.config | xargs` -cp "examples/conf/druid/_common:examples/conf/druid/_common/hadoop-xml:examples/conf/druid/broker:lib/*" io.druid.cli.Main server broker
 ```
 一旦所有服务启动了，就可以开始加载数据了
-#### &lt;a id="resetting-cluster-state" class="anchor"&gt;重置Druid状态&lt;/a&gt;
+#### <a id="resetting-cluster-state" class="anchor">重置Druid状态</a>
 所有持久状态，如集群元数据存储和segment会保存在`druid-0.12.3`的`var`目录。  
 因此之后如果你想停掉服务，使用`Ctrl-C`关闭执行中的java进程。如果想重新启动一个干净的环境，删除`log`和`var`目录，执行`init`脚本，然后停掉Zookeeper，删除ZooKeeper的数据目录`/tmp/zookeeper`  
 
@@ -149,33 +129,16 @@ rm -rf /tmp/zookeeper
 
 接下来的教程阐述了多种Druid加载数据的方法，包括批处理和流式的情景：
 
-#### [从文件加载](tutorial-batch)
+#### [从文件加载](#!/tutorials/tutorial-batch)
 从一个文件批处理加载，使用Druid内地批处理导入。
-#### [从Kafka加载流式数据](tutorial-kafka)
+#### [从Kafka加载流式数据](#!/tutorials/tutorial-kafka)
 从一个Kafka topic加载流式数据。
-#### [使用Hadoop加载文件](tutorial-batch-hadoop)
+#### [使用Hadoop加载文件](#!/tutorials/tutorial-batch-hadoop)
 从一个文件批处理加载，使用一个远端的Hadoop集群。
-#### [使用Tranquility加载](tutorial-tranquility)
+#### [使用Tranquility加载](#!/tutorials/tutorial-tranquility)
 使用Tranquility服务加载流式数据推送至Druid。
 #### [编写自己的导入配置](/TODO)
 编写一个新的配置并使用它来加载数据
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("tutorials")
-        </script>
-    </body>
-</html>
+

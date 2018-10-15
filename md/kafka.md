@@ -1,24 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>聊聊Kafka</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-2">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / 聊聊Kafka</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
-
 Kafka是一款分布式发布-订阅消息系统，由LinkedIn开发，现在是Apache项目的一部分。常用于**构建实时流数据管道**，在程序之间可靠地获取数据。
 
 首先，我们知：
@@ -70,17 +49,3 @@ Kafka通过一个简单的、高可用的、语言无关的**TCP协议**连接�
 
 ###### 感谢大家的阅读，Kafka的介绍暂时到这里。文中不免有错的地方，欢迎指出。感谢！
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-        </script>
-    </body>
-</html>

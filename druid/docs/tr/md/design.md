@@ -1,24 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / Druid简介</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
-
 Druid设计实现对大数据集合做高性能任意组合交叉分析统计(OLAP形式)的数据存储。常用在统计分析图形界面工具的数据存储，或者是提供高效聚合计算能力和高度并行能力的API的后端。常用的领域包括：
 - 点击流的统计
 - 网络流量统计
@@ -100,30 +79,13 @@ Broker裁剪是一个Druid限制扫描数据量的重要方法，但不是唯一
 ### 外部依赖
 ##### 深度存储
 Druid使用深度存储只是作为一个数据备份容器和各进程间的数据通路。对于查询的请求响应，Historical不会读深度存储，而是已经在查询处理前预加载至本地的segment。这意味着Druid不需要在查询时访问深度存储，使得查询的效率足够高。回过来也意味着在深度存储和跨Historical进程时，需要有足够的硬盘空间用于计划加载的数据。  
-详情可查看[深度存储依赖](http://druid.io/docs/latest/dependencies/deep-storage.html)
+详情可查看[深度存储依赖](/TODO)
 ##### 元数据存储
 元数据存储保存各种系统元数据，如segment可用性信息和任务信息。  
-详情可查看[元数据存储依赖](http://druid.io/docs/latest/dependencies/metadata-storage.html)
+详情可查看[元数据存储依赖](/TODO)
 ##### Zookeeper
 Druid使用zk来管理集群状态  
-详情可查看[zk依赖](http://druid.io/docs/latest/dependencies/zookeeper.html)
+详情可查看[zk依赖](/TODO)
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("design")
-        </script>
-    </body>
-</html>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/markdown.css">
+        <link rel="stylesheet" href="/common.css">
+    </head>
+    <body class="in-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel page col-md-8 col-md-offset-2">
+                    <div class="panel-body">
+                        <div class="page-header">
+                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / <span class="title"></span></h4>
+                        </div>
+                        <div class="md-display markdown-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
+        <script>
+            var title = {
+                "kafka": "聊聊Kafka",
+                "playframework/quickstart": "快速搭建一个play服务"
+            }
+
+            $(document).ready(function(){
+                var hash = window.location.hash.substr(2).split("#", 2)
+                var hash0 = hash[0].startsWith("/") ? hash[0].substr(1) : hash[0]
+                $("title").text(title[hash0])
+                $(".title").text(title[hash0])
+
+                var load = function(){
+                    var hash = window.location.hash.substr(2).split("#", 2)
+                    var hash0 = hash[0].startsWith("/") ? hash[0].substr(1) : hash[0]
+                    $.ajax({
+                        url: "../md/" + hash0 + ".md",
+                        dataType: "html",
+                        success: function(resp) {
+                            $(".md-display").html(marked(resp))
+                            if (hash[1]) {
+                                $(window).scrollTop($("#" + hash[1]).offset().top)
+                            } else {
+                                $(window).scrollTop(0)
+                            }
+                        }
+                    })
+                }
+                $(document).ready(load)
+                window.addEventListener('hashchange', load);
+            })
+        </script>
+    </body>
+</html>
+

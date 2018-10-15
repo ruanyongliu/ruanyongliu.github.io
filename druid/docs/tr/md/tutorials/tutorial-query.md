@@ -1,30 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / 部署教程 / 查询数据</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
-
 本教程阐述如果从Druid查询数据，这里会介绍Druid自带的格式和SQL格式。  
 我们假设你已经完成前面4个导入教程中的至少一个了，因为我们需要查询维基修改样例数据。
-- [教程：加载文件](../tutorial-batch)
-- [教程：从Kafka加载流式数据](../tutorial-kafka)
-- [教程：使用Hadoop加载批量数据](../tutorial-batch-hadoop)
-- [教程：Http推送流式数据](../tutorial-tranquility)
+- [教程：加载文件](#!tutorials/tutorial-batch)
+- [教程：从Kafka加载流式数据](#!tutorials/tutorial-kafka)
+- [教程：使用Hadoop加载批量数据](#!tutorials/tutorial-batch-hadoop)
+- [教程：Http推送流式数据](#!tutorials/tutorial-tranquility)
 
 ### 自带JSON格式
 Druid自带的JSON查询格式。我们已经包含了一个自带的TopN查询样子，在`examples/wikipedia-top-pages.json`:
@@ -336,21 +315,4 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-explain
 更多Druid SQL查询的信息，请浏览[Druid SQL文档](/TODO)
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("/tutorial-batch")
-        </script>
-    </body>
-</html>
+

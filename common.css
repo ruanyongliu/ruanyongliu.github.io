@@ -46,23 +46,25 @@
     border-width: 0px;
     box-shadow: 0px 0px 10px 10px #DDDDDD;
 }
-.in-page .nav {
+.in-page .nav0 {
     margin-top: 20px;
     margin-left: 20px;
     padding-bottom: 10px;
     padding-right: 10px;
     border-width: 0px;
 }
-.in-page .nav a {
-    padding: 2px 15px;
+.in-page .nav0 a {
+    padding: 0px;
 }
-.in-page .nav .active a {
-    color: Crimson
+.in-page .nav0 li {
+    padding: 2px 10px;
 }
-.in-page .nav .divider {
+.in-page .nav0 .active>a {
+    color: Crimson;
+    font-weight: bold;
+}
+.in-page .nav0 .nav-static {
     color: DarkGrey;
-    padding-left: 15px;
-    padding-top: 10px;
 }
 .in-page a.anchor {
     color: Black;

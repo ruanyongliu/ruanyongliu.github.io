@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / 部署教程 / 从Kafka加载流式数据</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
-
 ### 开始
 本教程阐述数据如何从Kafka流加载，使用Kafka indexing服务  
-在本教程，我们已经假设你已经下载安装了之前在[quickstart章节](..)介绍Druid服务。你暂不需要再加载任何数据
+在本教程，我们已经假设你已经下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid服务。你暂不需要再加载任何数据
 
 ### 下载并安装Kafka
 Apache Kafka是一个高吞吐消息通路，非常适合Druid。本章节我们使用Kafka 0.10.2.0. 下载Kafka，使用下面命令
@@ -61,30 +40,13 @@ export KAFKA_OPTS="-Dfile.encoding=UTF-8"
 
 ### 查询数据
 数据发送到Kafka流之后，就可以立即被查询。  
-请查看[查询教程](../tutorial-query)来对新加载的数据执行一些查询。
+请查看[查询教程](#!/tutorials/tutorial-query)来对新加载的数据执行一些查询。
 
 ### 清理
-如果你希望继续其他导入教程，你需要[重置集群](../#resetting-cluster-state)，因为其他教程也会写到这个`wikipedia`datasource。
+如果你希望继续其他导入教程，你需要[重置集群](#!/tutorials#resetting-cluster-state)，因为其他教程也会写到这个`wikipedia`datasource。
 
 ### 更多
 更多从Kafka流导入数据的信息，请浏览[Druid Kafka indexing服务文档](/TODO)
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("tutorials/tutorial-kafka")
-        </script>
-    </body>
-</html>
+

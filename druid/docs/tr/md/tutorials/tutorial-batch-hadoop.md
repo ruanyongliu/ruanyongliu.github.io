@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>[译]Druid文档</title>
-        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/markdown.css">
-        <link rel="stylesheet" href="/common.css">
-    </head>
-    <body class="in-page">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="panel page col-md-8 col-md-offset-1">
-                    <div class="panel-body">
-                        <div class="page-header">
-                            <h4><a href="/" class="glyphicon glyphicon-home"></a> / [译] Druid文档 / 部署教程 / 使用Hadoop加载批量数据</h4>
-                        </div>
-                        <div class="md-display markdown-body"></div>
-                        <div class="md-txt" style="display:none">
-
 本教程将向你展示如何使用一个远端的Hadoop集群加载数据文件到Druid。  
-我们假设你已经完成上一章的批量导入教程：[使用本地批量导入系统](../tutorial-batch)。
+我们假设你已经完成上一章的批量导入教程：[使用本地批量导入系统](#!/tutorials/tutorial-batch)。
 
 ### 安装Docker
 本教程要求在实验机器上安装使用[Docker](https://docs.docker.com/install/)。  
@@ -158,12 +137,12 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-index-h
 
 ### 查询数据
 一到两分钟之后你的数据应该能完全可用了。你可以通过Coordinator控制台http://localhost:8081/#/ 监控这个过程。  
-一旦数据加载完毕，请查看[查询教程](../tutorial-query)来对新加载的数据执行一些查询。
+一旦数据加载完毕，请查看[查询教程](#!/tutorials/tutorial-query)来对新加载的数据执行一些查询。
 
 ### 清理
-本教程仅用于与[查询教程](/TODO)一起使用。  
+本教程仅用于与[查询教程](#!/tutorials/tutorial-query)一起使用。  
 如果你希望阅读其他教程，你需要
-- 关闭集群、按照[重置教程](../#resetting-cluster-state)重置集群状态
+- 关闭集群、按照[重置教程](#!/tutorials#resetting-cluster-state)重置集群状态
 - 深度存储和任务存储配置`examples/conf/druid/_common/common.runtime.properties`改回到本地类型
 - 重启集群
 
@@ -200,21 +179,4 @@ druid.indexer.logs.directory=var/druid/indexing-logs
 
 
 ###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-                        </div>
-                    </div>
-                </div>
-                <div class="panel nav col-md-2">
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
-        <script src="/js/Druid.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(".md-display").html(marked($(".md-txt").text()))
-            })
-            DocsTr.navRender("tutorials/tutorial-batch-hadoop")
-        </script>
-    </body>
-</html>
+

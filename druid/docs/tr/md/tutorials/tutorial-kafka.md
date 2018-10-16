@@ -48,5 +48,3 @@ export KAFKA_OPTS="-Dfile.encoding=UTF-8"
 ### 更多
 更多从Kafka流导入数据的信息，请浏览[Druid Kafka indexing服务文档](/TODO)
 
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-

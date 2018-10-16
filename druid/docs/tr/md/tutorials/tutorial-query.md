@@ -314,5 +314,3 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-explain
 更多Druid自带查询的信息，请浏览[查询文档](/TODO)  
 更多Druid SQL查询的信息，请浏览[Druid SQL文档](/TODO)
 
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-

@@ -177,6 +177,3 @@ druid.indexer.logs.directory=var/druid/indexing-logs
 ### 更多
 更多Hadoop批处理数据加载的信息，请浏览[Hadoop批处理导入教程](/TODO)
 
-
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-

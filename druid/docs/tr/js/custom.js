@@ -53,6 +53,14 @@ DocsTr = {
                         {
                             display: "教程：更新现有数据",
                             url: "tutorials/tutorial-update-data"
+                        },
+                        {
+                            display: "教程：删除数据",
+                            url: "tutorials/tutorial-delete-data"
+                        },
+                        {
+                            display: "教程：编写你自己的导入配置",
+                            url: "tutorials/tutorial-ingestion-spec"
                         }
                     ]
                 }

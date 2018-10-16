@@ -44,5 +44,3 @@ curl -XPOST -H'Content-Type: application/json' --data-binary @quickstart/wikitic
 ### 更多
 更多Tranquility信息，请浏览[Tranquility文档](/TODO)
 
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-

@@ -137,8 +137,6 @@ rm -rf /tmp/zookeeper
 从一个文件批处理加载，使用一个远端的Hadoop集群。
 #### [使用Tranquility加载](#!/tutorials/tutorial-tranquility)
 使用Tranquility服务加载流式数据推送至Druid。
-#### [编写自己的导入配置](/TODO)
+#### [编写自己的导入配置](#!/tutorials/tutorial-ingestion-spec)
 编写一个新的配置并使用它来加载数据
-
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
 

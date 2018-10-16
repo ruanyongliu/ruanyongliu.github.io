@@ -98,5 +98,3 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-index.j
 ### 更多
 更多批处理数据加载的信息，请浏览[批处理导入教程](/TODO)
 
-###### 感谢大家的阅读。文中如果翻译不当的地方，欢迎指出。感谢！
-

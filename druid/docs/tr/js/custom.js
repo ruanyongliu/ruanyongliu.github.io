@@ -61,8 +61,16 @@ DocsTr = {
                         {
                             display: "教程：编写你自己的导入配置",
                             url: "tutorials/tutorial-ingestion-spec"
+                        },
+                        {
+                            display: "教程：转化输入数据",
+                            url: "tutorials/tutorial-transform-spec"
                         }
                     ]
+                },
+                {
+                    display: "集群化",
+                    url: "tutorials/cluster"
                 }
             ]
         }

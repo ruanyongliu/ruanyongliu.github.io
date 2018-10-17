@@ -6,7 +6,7 @@
 - 2 vCPUs
 
 Mac OS X，可以使用[Oracle's JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)来安装Java  
-Linux的包管理工具应该会有帮助。如果是Ubuntu-based的系统，Java版本过低，可以使用WebUpd8提供的[安装包](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
+Linux的包管理工具应该会有帮助。如果是Ubuntu-based的系统，并且Java版本过低，可以使用WebUpd8提供的[安装包](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
 
 ### 开始安装
 安装Druid，在Terminal执行:
@@ -139,4 +139,3 @@ rm -rf /tmp/zookeeper
 使用Tranquility服务加载流式数据推送至Druid。
 #### [编写自己的导入配置](#!/tutorials/tutorial-ingestion-spec)
 编写一个新的配置并使用它来加载数据
-

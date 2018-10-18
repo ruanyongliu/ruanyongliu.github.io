@@ -7,7 +7,7 @@ Druid设计实现对大数据集合做高性能任意组合交叉分析统计(OL
 - 商业智能/OLAP
 
 Druid的主要特点有：
-1. **按列存储**。Druid使用列存储。在查询是只需加载所需的列，因此如果只加载很少列的情况下速度有很大的提升。除此以外，一般每列的类型是一样的，因此可以针对性做优化，满足快速的读取和聚合。
+1. **按列存储**。Druid使用列存储。在查询时只需加载所需的列，因此如果只加载很少列的情况下速度有很大的提升。除此以外，一般每列的类型是一样的，因此可以针对性做优化，满足快速的读取和聚合。
 2. **可扩展性分布式系统**。Druid部署在数十到数百台机器的集群上，处理每秒数百万的记录，保留数万亿条记录，和提供秒级的查询。
 3. **MPP架构**。在集群上并行处理查询请求。
 4. **实时或批量的数据导入**。并且实时的导入可以立刻被查询。
@@ -25,7 +25,7 @@ Druid的主要特点有：
 - 数据有时间模块(Druid的优化和设计与时间关联)。
 - 你可能有多个数据表，但是所有的查询都围绕一个大的分布式表，偶尔需要几个小的查询表。
 - 你有几个大基数的数据列(如url和用户id)，需要快速计数和排序。
-- 你希望从Kafka、HDFS、文件或object存储，如Amazon S3加载数据。
+- 你希望从Kafka、HDFS、文件或对象存储，如Amazon S3加载数据。
 
 不适合Druid的场景：
 - 需要低延迟的更新操作。Druid支持流式插入，但不支持流式更新(更新使用批量作业)。
@@ -34,12 +34,12 @@ Druid的主要特点有：
 ### 架构
 Druid有一个多进程分布式架构，云友好，易操作。每个进程类型可以单独配置和扩展，针对你的集群提供最大的灵活性。这样的设计还有很好的容错性：一个零部件的离线不会马上影响到其他部件。
 Druid的进程包括：
-- **Historical**进程是处理存储层和查询历史数据(包括在系统里已经提交的流式数据)的工作站。Historical进程从深度存储介质下载segment，返回给相关请求。他们不会处理写操作。
-- **MiddleManager**进程将新数据导入集群。他们负责从外部介质读入数据，并生成新的Druid segments。
-- **Broker**接收查询请求，转化至Historical或者MiddleManager进程。然后将从这些进程返回的数据合并返回给调用者。用户一般会通过Broker查询而不是直接查询Historical或者MiddleManager进程。
-- **Coordinator**负责观察Historical进程，把segments分配给特定的机器，保证segment在Historical进程中足够均衡。
-- **Overlord**负责观察MiddleManager进程，是数据导入的控制层。他们负责给MiddleManager进程分配导入任务，协调segment生成。
-- **Router**进程。可选。用于给Brokers、Overloads和Coordinators提供一个唯一的API网关。也可以不使用而直接访问以上进程。
+- [**Historical**](/TODO)进程是处理存储层和查询历史数据(包括在系统里已经提交的流式数据)的工作站。Historical进程从深度存储介质下载segment，返回给相关请求。他们不会处理写操作。
+- [**MiddleManager**](/TODO)进程将新数据导入集群。他们负责从外部介质读入数据，并生成新的Druid segments。
+- [**Broker**](/TODO)接收查询请求，导流至Historical或者MiddleManager进程。然后将从这些进程返回的数据合并返回给调用者。用户一般会通过Broker查询而不是直接查询Historical或者MiddleManager进程。
+- [**Coordinator**](/TODO)负责观察Historical进程，把segment分配给特定的机器，保证segment在Historical进程中足够均衡。
+- [**Overlord**](/TODO)负责观察MiddleManager进程，是数据导入的控制层。他们负责给MiddleManager进程分配导入任务，协调segment生成。
+- [**Router**](/TODO)进程。可选。用于给Brokers、Overloads和Coordinators提供一个唯一的API网关。也可以不使用而直接访问以上进程。
 
 Druid的进程可以单独部署(每个进程单独一个物理服务器，虚拟服务器或者虚拟容器), 或者共同部署在共享服务器上。一个共同部署的计划可以是：
 - **Data**服务，执行Historical和MiddleManager进程
@@ -47,11 +47,11 @@ Druid的进程可以单独部署(每个进程单独一个物理服务器，虚�
 - **Master**服务，执行Coordinator和Overlord进程。也可以使用zk服务。
 
 除了这三类进程，Druid还需要三种外部依赖。这些依赖都用的现有的基础设施。
-- **深度存储**。共享文件存储并所有Druid服务可访问。通常会使用一个分布式object存储，如S3或者HDFS，或者一个网络安装文件系统。Druid使用这次存储介质存储已经导入哪些系统的数据。
-- **元数据存储**。共享元数据存储。通常会使用传统的RDBMS(关系型数据库管理系统), 如PostgreSQL或者MySQL。
-- **ZooKeeper**。用于内部服务发现、协作和主节点选举
+- [**深度存储**](#!/design#deep-storage)。共享文件存储并所有Druid服务可访问。通常会使用一个分布式对象存储，如S3或者HDFS，或者一个网络安装文件系统。Druid使用这次存储介质存储已经导入系统的数据。
+- [**元数据存储**](#!/design#metadata-storage)。共享元数据存储。通常会使用传统的RDBMS(关系型数据库管理系统), 如PostgreSQL或者MySQL。
+- [**ZooKeeper**](#!/design#zookeeper)。用于内部服务发现、协作和主节点选举。
 
-这套架构背后的思路就是使得线上Druid集群方便扩展。例如，深度存储和元数据存储的分离意味着Druid进程完全地实现容错——即使单个Druid节点失败，你还能够重新分别根据深度存储和元数据存储的数据来启动你的集群。
+这套架构背后的思路就是使得线上Druid集群方便扩展。例如，深度存储和元数据存储的分离意味着Druid进程完全地实现容错——即使单个Druid节点失败，你还能够重新分别根据深度存储和元数据存储的数据来启动你的集群。  
 下图展示了一个请求来到时这个架构的数据流向：
 ![](http://druid.io/docs/img/druid-architecture.png)
 
@@ -77,13 +77,13 @@ Broker裁剪是一个Druid限制扫描数据量的重要方法，但不是唯一
 - 对于每个segment, 只读取这个查询相关的行和列
 
 ### 外部依赖
-##### 深度存储
+##### <a id="deep-storage" class="anchor">深度存储</a>
 Druid使用深度存储只是作为一个数据备份容器和各进程间的数据通路。对于查询的请求响应，Historical不会读深度存储，而是已经在查询处理前预加载至本地的segment。这意味着Druid不需要在查询时访问深度存储，使得查询的效率足够高。回过来也意味着在深度存储和跨Historical进程时，需要有足够的硬盘空间用于计划加载的数据。  
 详情可查看[深度存储依赖](/TODO)
-##### 元数据存储
+##### <a id="metadata-storage" class="anchor">元数据存储</a>
 元数据存储保存各种系统元数据，如segment可用性信息和任务信息。  
 详情可查看[元数据存储依赖](/TODO)
-##### Zookeeper
+##### <a id="zookeeper" class="anchor">Zookeeper</a>
 Druid使用zk来管理集群状态  
 详情可查看[zk依赖](/TODO)
 

@@ -29,7 +29,7 @@ Druid Broker接受查询请求，然后分配给集群其他的节点。他也�
 如果你的Ubuntu-based系统Java版本过低，可以使用WebUpd8提供的[安装包](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)。
 
 ### 下载发行版
-首先下载并解压发布存放。最好是现在一台机器上操作，因为你需要修改配置，然后将修改后的发行版复制到所有服务器上。
+首先下载并解压发布存档。最好是先一台机器上操作，因为你需要修改配置，然后将修改后的发行版复制到所有服务器上。
 ```
 curl -O http://static.druid.io/artifacts/releases/druid-0.12.3-bin.tar.gz
 tar -xzf druid-0.12.3-bin.tar.gz
@@ -110,12 +110,12 @@ Druid可以通过Tranquility Kafka消费Kafka数据流。如果你使用这个�
 - 修改`conf/middleManager/runtime.properties`的`druid.indexer.task.hadoopWorkingPath`为用于在indexing过程中存在临时文件的HDFS地址，例`druid.indexer.task.hadoopWorkingPath=/tmp/druid-indexing`。
 - 把Hadoop的那些XML配置文件(`core-site.xml`, `hdfs-site.xml`, `yarn-site.xml`, `mapred-site.xml`)放在Druid节点的运行目录。例如你可以把这些文件复制到`conf/druid/_common/core-site.xml`，`conf/druid/_common/hdfs-site.xml`等等。
 
-注意你不一定需要使用HDFS深度存储，及时是从Hadoop加载数据。例如你的集群本来就运行在亚马逊Web服务，我们仍然推荐你使用S3作为深度存储，及时你使用Hadoop或者Elastic MapReduce来加载数据。
+注意你不一定需要使用HDFS深度存储，即使是从Hadoop加载数据。例如你的集群本来就运行在亚马逊Web服务，我们仍然推荐你使用S3作为深度存储，即使你使用Hadoop或者Elastic MapReduce来加载数据。
 
 更多的信息请浏览[批量导入](/TODO)
 
 ### 配置Druid coordination服务的地址
-在这个简单的集群，我们会部署一个单点Druid Coordinator，一个单点Druid Overlord，一个单点Zookeeper实例，和一个嵌入式Derby元数据存储在同一台服务器上。
+在这个简单的集群，我们会部署一个单点Druid Coordinator，一个单点Druid Overlord，一个单点Zookeeper实例，和一个嵌入式Derby元数据存储在同一台服务器上。  
 修改`conf/druid/_common/common.runtime.properties`，更改`zk.service.host`为运行ZK实例的机器地址：
 - `druid.zk.service.host`
 
@@ -128,9 +128,8 @@ Druid可以通过Tranquility Kafka消费Kafka数据流。如果你使用这个�
 </div>
 
 ### 调整用于处理查询的进程
-Historical和MiddleManager可以部署在相同的硬件上。这些进程受益于调整到他们运行的硬件上。如果你使用Tranquility服务或者Kafka，你还可以把Tranquility服务与这两个进程一起部署。如果你使用[r3.2xlarge](https://aws.amazon.com/ec2/instance-types/#r3)EC2实例或者相似的硬件，发行版的配置是一个合理起点。  
-如果你使用的是不同的硬件，我们推荐你根据你的硬件调整配置。  
-一些常调整的配置有:
+Historical和MiddleManager可以部署在相同的硬件上。这些进程受益于调整他们运行的硬件。如果你使用Tranquility服务或者Kafka，你还可以把Tranquility服务与这两个进程一起部署。如果你使用[r3.2xlarge](https://aws.amazon.com/ec2/instance-types/#r3)EC2实例或者相似的硬件，发行版的配置是一个合理起点。  
+如果你使用的是不同的硬件，我们推荐你根据你的硬件调整配置。一些常调整的配置有:
 - `-Xmx`和`-Xms`
 - `druid.server.http.numThreads`
 - `druid.processing.buffer.sizeBytes`
@@ -141,15 +140,14 @@ Historical和MiddleManager可以部署在相同的硬件上。这些进程受益
 - MiddleManagers的`druid.worker.capacity`
 
 <div class="alert alert-info" role="alert">
-保证 -XX:MaxDirectMemory >= numThreads\*sizeBytes，否则Druid就启动不了。
+需保证 -XX:MaxDirectMemory >= numThreads \* sizeBytes，否则Druid就启动不了。
 </div>
 
 [Druid配置文档](/TODO)完整地描述了所有可能的配置选项。
 
 ### 调整Druid Broker
 Druid Broker同样受益于调整他们运行的硬件。如果你使用[r3.2xlarge](https://aws.amazon.com/ec2/instance-types/#r3)EC2实例或者相似的硬件，发行版的配置是一个合理起点。  
-如果你使用的是不同的硬件，我们推荐你根据你的硬件调整配置。  
-一些常调整的配置有:
+如果你使用的是不同的硬件，我们推荐你根据你的硬件调整配置。一些常调整的配置有:
 
 - `-Xmx`和`-Xms`
 - `druid.server.http.numThreads`
@@ -160,7 +158,7 @@ Druid Broker同样受益于调整他们运行的硬件。如果你使用[r3.2xla
 - `druid.query.groupBy.maxResults`
 
 <div class="alert alert-warning" role="alert">
-保证 -XX:MaxDirectMemory >= numThreads\*sizeBytes，否则Druid就启动不了。
+需保证 -XX:MaxDirectMemory >= numThreads \* sizeBytes，否则Druid就启动不了。
 </div>
 
 [Druid配置文档](/TODO)完整地描述了所有可能的配置选项。
@@ -208,10 +206,9 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 java `cat conf/druid/coordinator/jvm.config | xargs` -cp conf/druid/_common:conf/druid/coordinator:lib/* io.druid.cli.Main server coordinator
 java `cat conf/druid/overlord/jvm.config | xargs` -cp conf/druid/_common:conf/druid/overlord:lib/* io.druid.cli.Main server overlord
 ```
-每一个启动的服务你应该都会看见一条日志信息打印出来。你也可以在其他终端查看`var/log/druid`目录来查看所有服务的详细
-日志。
+每一个启动的服务你应该都会看见一条日志信息打印出来。你也可以在其他终端浏览`var/log/druid`目录来查看所有服务的详细日志。
 ### 启动Historical和MiddleManager
-复制Druid发行版和修改后的配置到用于部署Historical和MiddleManager的机器。
+复制Druid发行版和修改后的配置到用于部署Historical和MiddleManager的机器。  
 在每一台机器，`cd`到发行版目录，执行下面命令，启动一个数据服务：
 ```
 java `cat conf/druid/historical/jvm.config | xargs` -cp conf/druid/_common:conf/druid/historical:lib/* io.druid.cli.Main server historical
@@ -231,7 +228,7 @@ cd tranquility-distribution-0.8.0
 bin/tranquility <server or kafka> -configFile <path_to_druid_distro>/conf/tranquility/<server or kafka>.json
 ```
 ### 启动 Druid Broker
-复制Druid发行版和修改后的配置到用于部署Broker的机器。
+复制Druid发行版和修改后的配置到用于部署Broker的机器。  
 在每一台机器，`cd`到发行版目录，执行下面命令，启动一个Broker(你可能需要把输出导到一个日志文件)：
 ```
 java `cat conf/druid/broker/jvm.config | xargs` -cp conf/druid/_common:conf/druid/broker:lib/* io.druid.cli.Main server broker

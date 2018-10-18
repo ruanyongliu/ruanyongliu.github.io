@@ -1,5 +1,5 @@
 本教程会指导读者通过定义导入配置的过程，指出主要的考虑和指南。  
-在本教程，我们已经假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
 完成 [教程：加载文件](#!/tutorials/tutorial-batch)、[教程：查询数据](#!/tutorials/tutorial-query) 和 [教程：Rollup](#!/tutorials/tutorial-rollup) 的阅读会更有帮助。
 
 ### 样例数据
@@ -81,7 +81,7 @@ Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节�
 在这之前，我们先讨论一下rollup。
 #### Rollup
 导入数据之前我们需要考虑一下是否需要使用rollup。  
-如果打开rollup，我们需要把输入的列分为两类，维度 和 指标。维度是rollup组合汇总的根据，指标是要聚合的列。  
+如果打开rollup，我们需要把输入的列分为两类，**维度** 和 **指标**。维度是rollup组合汇总的根据，指标是要聚合的列。  
 如果关闭rollup，那么所有列都会当成维度 ，不会有预先聚合。  
 这里，我们选择打开rollup。这个在`dataSchema`的`granularitySpec`配置项定义。  
 注意`granularitySpec`字段在`parser`字段外面。但是我们待会会回到`parser`字段里，定义我们的 维度 和 指标   

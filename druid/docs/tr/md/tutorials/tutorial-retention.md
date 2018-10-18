@@ -1,5 +1,5 @@
 本章节介绍如何给一个数据源配置保留规则，来设置各时间段的数据是保留还是删除。  
-在本教程，我们已经假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
 完成 [教程：加载文件](#!/tutorials/tutorial-batch) 和 [教程：查询数据](#!/tutorials/tutorial-query) 的阅读会更有帮助。
 ### 加载样例数据
 本章节，我们会使用维基修改数据作为样例数据，和一个导入任务配置来给每个小时的输入数据分别创建segment。  
@@ -18,7 +18,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/retention-index.j
 跳到下一页( http://localhost:8081/#/datasources/retention-tutorial )，展示了datasource包含了那些segment。这里在页面左边展示了总共有24个segment，分别包含了2015-09-12每小时的数据。  
 ![](http://druid.io/docs/0.12.3/tutorials/img/tutorial-retention-01.png)
 ### 配置保留规则
-假设我们想丢掉2015-09-12头12个小时，保留后12个小时的数据。  
+假设我们想丢掉2015-09-12前12个小时，保留后12个小时的数据。  
 点击在页面左上角，铅笔状图标的`edit rule`按钮。  
 会弹出一个规则配置窗口。在用户和修改日志注释字段输入`tutorial`。  
 点击`+ Add a rule`按钮两次。  

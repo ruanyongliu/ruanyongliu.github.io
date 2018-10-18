@@ -1,5 +1,5 @@
 本教程会介绍如何使用转换配置来过滤和如何在转换导入数据。  
-在本教程，我们已经假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
 完成 [教程：加载文件](#!/tutorials/tutorial-batch) 和 [教程：查询数据](#!/tutorials/tutorial-query) 的阅读会更有帮助。
 
 ### 样例数据

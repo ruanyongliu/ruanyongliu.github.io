@@ -1,11 +1,11 @@
 这一章说的是如何更新现有数据，包括重写和添加。  
-在本教程，我们已经假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
 完成 [教程：加载文件](#!/tutorials/tutorial-batch)、[教程：查询数据](#!/tutorials/tutorial-query) 和 [教程：Rollup](#!/tutorials/tutorial-rollup) 的阅读会更有帮助。
 
 ### 重写
-这一节会描述如何重写一段已经存在的某个时间段的数据。
+这一节会介绍如何重写一段已经存在的某个时间段的数据。
 #### 加载初始数据
-让我们先加载一份初始数据集用于之后的重写和添加。
+让我们先加载一份初始数据集用于之后的重写和添加。  
 这个教程用到的配置放在了`examples/updates-init-index.json`。这份配置从`examples/updates-data.json`输入文件那创建一个名叫`updates-tutorial`的datasource。
 提交任务：
 ```

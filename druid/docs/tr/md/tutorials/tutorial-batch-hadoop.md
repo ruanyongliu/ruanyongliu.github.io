@@ -7,7 +7,7 @@
 
 ### 创建Hadoop docker镜像
 本教程，我们会提供一个Hadoop2.7.3集群的docker文件，用于运行批量indexing任务。  
-Docker文件和相关文件保存在`examples/hadoop/docker`。  
+Docker和相关文件保存在`examples/hadoop/docker`。  
 在`druid-0.12.3`目录，执行下面命令，创建一个名叫`druid-hadoop-demo`，带有一个版本标签`2.7.3`的Docker镜像:
 ```
 cd examples/hadoop/docker
@@ -118,7 +118,7 @@ druid.indexer.logs.type=hdfs
 druid.indexer.logs.directory=/druid/indexing-logs
 ```
 #### 重启Druid集群
-完成Hadoop .xml文件复制和修改segment/日志存储配置后，Druid集群需要重新来让新配置起作用。  
+完成Hadoop .xml文件复制，修改segment和日志存储配置后，Druid集群需要重新来让新配置起作用。  
 如果集群还在执行，`CTRL-C`关闭每个Druid服务，再重新启动。
 
 ### 加载数据

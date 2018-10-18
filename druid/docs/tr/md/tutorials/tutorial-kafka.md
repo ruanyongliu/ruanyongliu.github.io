@@ -1,9 +1,9 @@
 ### 开始
-本教程阐述数据如何从Kafka流加载，使用Kafka indexing服务  
-在本教程，我们已经假设你已经下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid服务。你暂不需要再加载任何数据
+本教程介绍如何使用Kafka indexing服务从Kafka流加载数据。  
+我们假设你已经下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid服务。你暂不需要再加载任何数据
 
 ### 下载并安装Kafka
-Apache Kafka是一个高吞吐消息通路，非常适合Druid。本章节我们使用Kafka 0.10.2.0. 下载Kafka，使用下面命令
+[Apache Kafka](http://kafka.apache.org/)是一个高吞吐消息通路，非常适合Druid。本章节我们使用Kafka 0.10.2.0。 下载Kafka，使用下面命令
 ```
 curl -O https://archive.apache.org/dist/kafka/0.10.2.0/kafka_2.11-0.10.2.0.tgz
 tar -xzf kafka_2.11-0.10.2.0.tgz

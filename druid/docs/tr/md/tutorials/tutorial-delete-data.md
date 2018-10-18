@@ -1,5 +1,5 @@
 本教程介绍如何删除数据。  
-阅读本教程之前，我们已经假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
+阅读本教程之前，我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
 由于我们使用了保留规则，强烈建议先阅读 [教程：保留规则](#!/tutorials/tutorial-retention) 。
 
 ### 加载初始数据
@@ -24,7 +24,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-index.js
 点击`+ Add a rule`按钮两次。  
 在顶部`rule #1`，点击`Load`，`Interval`，在`interval`输入框输入`2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z`，点击`+ _default_tier replicant`。  
 底部的`rule #2`, 点击`Drod`和`Forever`。  
-这会使`deletion-tutorial`的头12个segment被丢弃，但是这些被丢弃的segment不会从深度存储移除。  
+这会使`deletion-tutorial`的前12个segment被丢弃，但是这些被丢弃的segment不会从深度存储移除。  
 通过查看`var/druid/segments/deletion-tutorial`你会发现仍然有24个segment存在。
 ```
 $ ls -l1 var/druid/segments/deletion-tutorial/

@@ -1,4 +1,4 @@
-本教程阐述如果从Druid查询数据，这里会介绍Druid自带的格式和SQL格式。  
+本教程介绍如何从Druid查询数据，这里会介绍Druid自带的格式和SQL格式。  
 我们假设你已经完成前面4个导入教程中的至少一个了，因为我们需要查询维基修改样例数据。
 - [教程：加载文件](#!tutorials/tutorial-batch)
 - [教程：从Kafka加载流式数据](#!tutorials/tutorial-kafka)
@@ -6,7 +6,7 @@
 - [教程：Http推送流式数据](#!tutorials/tutorial-tranquility)
 
 ### 自带JSON格式
-Druid自带的JSON查询格式。我们已经包含了一个自带的TopN查询样子，在`examples/wikipedia-top-pages.json`:
+Druid自带的JSON查询格式。我们已经包含了一个自带的TopN查询样例，在`examples/wikipedia-top-pages.json`:
 ```
 {
   "queryType" : "topN",
@@ -24,8 +24,8 @@ Druid自带的JSON查询格式。我们已经包含了一个自带的TopN查询�
   ]
 }
 ```
-这个查询抓取10个在2015-09-12页面修改次数最多的维基页面信息。
-然后提交到Druid broker:
+这个查询抓取10个在2015-09-12页面修改次数最多的维基页面信息。  
+提交到Druid broker:
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-top-pages.json http://localhost:8082/druid/v2?pretty
 ```
@@ -72,9 +72,9 @@ Druid也支持SQL语法查询，下面是一个与上述自带JSON查询相同�
 ```
 SELECT page, COUNT(*) AS Edits FROM wikipedia WHERE "__time" BETWEEN TIMESTAMP '2015-09-12 00:00:00' AND TIMESTAMP '2015-09-13 00:00:00' GROUP BY page ORDER BY Edits DESC LIMIT 10;
 ```
-SQL查询也是编写成JSON格式，通过HTTP提交
+SQL查询也是先转成JSON格式，通过HTTP提交
 #### TopN查询样例
-Druid用例包里有一个样例文件，包含上述SQL查询，在`examples/wikipedia-top-pages-sql.json`。提交到Druid broker:
+Druid用例包里有一个包含上述SQL查询的样例文件在`examples/wikipedia-top-pages-sql.json`。提交到Druid broker:
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/wikipedia-top-pages-sql.json http://localhost:8082/druid/v2/sql
 ```

@@ -63,7 +63,7 @@ DocsTr = {
                             url: "tutorials/tutorial-ingestion-spec"
                         },
                         {
-                            display: "教程：转化输入数据",
+                            display: "教程：转换输入数据",
                             url: "tutorials/tutorial-transform-spec"
                         }
                     ]

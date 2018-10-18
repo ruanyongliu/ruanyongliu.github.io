@@ -34,7 +34,7 @@ tar zxvf tutorial-examples.tar.gz
 ```
 
 ### 启动ZooKeeper
-Druid目前依赖Apache ZooKeeper来做分布式协调。你需要下载安装来启动。
+Druid目前依赖[Apache ZooKeeper](http://zookeeper.apache.org/)来做分布式协调。你需要下载安装来启动。
 ```
 curl http://www.gtlib.gatech.edu/pub/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz -o zookeeper-3.4.10.tar.gz
 tar -xzf zookeeper-3.4.10.tar.gz
@@ -67,7 +67,7 @@ rm -rf log
 rm -rf var
 bin/init
 ```
-如果你执行的是[教程:从Kafka加载流式数据](/TODO)，你应该在关掉Zookeeper之前关掉Kafka，然后删除Kafka日志目录`/tmp/kafka-logs`  
+如果你执行的是[教程:从Kafka加载流式数据](#!/tutorials/tutorial-kafka)，你应该在关掉Zookeeper之前关掉Kafka，然后删除Kafka日志目录`/tmp/kafka-logs`  
 `Ctrl-C`关闭kafka broker，然后删除目录:
 ```
 rm -rf /tmp/kafka-logs

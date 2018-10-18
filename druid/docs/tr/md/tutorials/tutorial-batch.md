@@ -1,10 +1,10 @@
 ### 开始
-本教程阐述如何执行一个批处理文件加载，使用Druid本地批处理导入。  
-在本教程，我们已经假设你已经下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid服务。你暂不需要再加载任何数据
+本教程介绍如何执行一个批处理文件加载，使用Druid本地批处理导入。  
+我们假设你已经下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid服务。你暂不需要再加载任何数据
 
 ### 准备数据和导入任务配置
 一个数据加载过程会在提交导入任务给Druid Overlord之后被初始化。本教程我们会加载维基修改数据作为样例  
-我们已经提供一个导入配置，在`examples/wikipedia-index.json`，用于配置读取`quickstart/wikiticker-2015-09-12-sampled.json.gz`文件，为了方便，我们在这里直接展示：
+我们提供了一个导入配置在`examples/wikipedia-index.json`，用于配置读取`quickstart/wikiticker-2015-09-12-sampled.json.gz`文件。为了方便，我们在这里直接展示：
 ```
 {
   "type" : "index",

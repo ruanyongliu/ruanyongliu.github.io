@@ -4,7 +4,7 @@ DocsTr = {
             display: "开始",
             nav: [
                 {
-                    display: "设计",
+                    display: "设计总览",
                     url: "design",
                     nav: [
                         {
@@ -73,8 +73,44 @@ DocsTr = {
                     url: "tutorials/cluster"
                 }
             ]
+        },
+        {
+            display: "数据导入",
+            nav: [
+                {
+                    display: "导入总览",
+                    url: "ingestion"
+                },
+                {
+                    display: "数据格式",
+                    url: "ingestion/data-formats"
+                },
+                {
+                    display: "任务总览",
+                    url: "ingestion/tasks"
+                },
+                {
+                    display: "导入配置",
+                    url: "ingestion/ingestion-spec",
+                    nav: [
+                        {
+                            display: "转换配置",
+                            url: "ingestion/transform-spec"
+                        },
+                        {
+                            display: "Firehose",
+                            url: "ingestion/firehose"
+                        }
+                    ]
+                }
+            ]
         }
     ],
+    pathTr: {
+        "design": "设计",
+        "tutorials": "教程",
+        "ingestion": "数据导入"
+    },
     navPartElement: function(tree) {
         var ul = $("<ul class=\"nav nav-stacked\"></ul>")
         for (var i in tree) {
@@ -117,6 +153,15 @@ DocsTr = {
         return null;
     },
     title: function(u) {
-        return DocsTr.titleRecur(u, DocsTr.nav)
+        var title = ""
+        if (u.indexOf("/") >= 0) {
+            var paths = u.split("/")
+            for (var i in paths.slice(0, paths.length - 1)) {
+                title += DocsTr.pathTr[paths[i]] + " / "
+            }
+        } else {
+            title = DocsTr.pathTr[u] + " / "
+        }
+        return title + DocsTr.titleRecur(u, DocsTr.nav)
     }
 }

@@ -178,7 +178,7 @@ dimensions | JSON数组 | 一组维度名称或者维度结构对象。提供一
 dimensionExclusions | 字符串JSON数组 | 导入时需要排除的维度 | 否，默认`[]`
 spatialDimensions | JSON数组 | 一个[空间维度](/TODO)数组 | 否，默认`[]`
 
-##### 维度结构对象
+##### <a id="dimension-schema" class="anchor">维度结构对象</a>
 维度结构对象指定了数据上一列的类型和名称。  
 对于字符串列，维度结构可以通过设置`createBitmapIndex`开启或关闭位图索引。默认情况下位图索引对于所有字符串类型的列都是开启的。只有字符串类型可以可用位图索引，数字型的列还不支持。  
 例如下面的`dimensionsSpec`，有一列`Long`类型`countryNum`，两列`Float`(`userLatitude`和`userLongitude`)，其他列都为字符串，其中`comment`列关闭了位图索引。

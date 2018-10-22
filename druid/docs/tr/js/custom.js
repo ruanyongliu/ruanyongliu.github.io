@@ -102,6 +102,10 @@ DocsTr = {
                             url: "ingestion/firehose"
                         }
                     ]
+                },
+                {
+                    display: "结构设计",
+                    url: "ingestion/schema-design"
                 }
             ]
         }

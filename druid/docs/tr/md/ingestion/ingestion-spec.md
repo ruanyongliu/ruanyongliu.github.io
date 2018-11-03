@@ -86,7 +86,7 @@ tuningConfig | JSON | 指定如何调整多个导入参数。不同的导入方�
 配置项 | 类型 | 描述 | 必须
 ---- | ---- | ---- | ----
 dataSource | 字符串 | datasource名称，datasource可以对比想象为一个表(table) | 是
-parser | 字符串 | 指定数据的解析方式 | 是
+parser | JSON | 指定数据的解析方式 | 是
 metricsSpec | JSON | 需要聚合的[指标](/TODO)列表 | 是
 granularitySpec | JSON | 设定segment创建和roll up的粒度 | 是
 transformSpec | JSON | 指定输入数据过滤和转换的方式，可浏览[转换配置](/TODO) | 否

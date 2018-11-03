@@ -106,6 +106,24 @@ DocsTr = {
                 {
                     display: "结构设计",
                     url: "ingestion/schema-design"
+                },
+                {
+                    display: "结构更改",
+                    url: "ingestion/schema-changes"
+                },
+                {
+                    display: "批量文件导入",
+                    url: "ingestion/batch-ingestion",
+                    nav: [
+                        {
+                            display: "本地批量导入",
+                            url: "ingestion/native-batch"
+                        },
+                        {
+                            display: "hadoop批量导入",
+                            url: "ingestion/hadoop"
+                        }
+                    ]
                 }
             ]
         }

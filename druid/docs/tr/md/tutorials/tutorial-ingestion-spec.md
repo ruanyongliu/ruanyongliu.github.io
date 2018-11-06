@@ -1,5 +1,7 @@
-本教程会指导读者通过定义导入配置的过程，指出主要的考虑和指南。  
-我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+本教程会指导读者通过定义导入配置的过程，指出主要的考虑和指南。
+
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。
+
 完成 [教程：加载文件](#!/tutorials/tutorial-batch)、[教程：查询数据](#!/tutorials/tutorial-query) 和 [教程：Rollup](#!/tutorials/tutorial-rollup) 的阅读会更有帮助。
 
 ### 样例数据
@@ -25,13 +27,17 @@
 {"ts":"2018-01-01T02:35:45Z","srcIP":"7.7.7.7", "dstIP":"8.8.8.8", "srcPort":4000, "dstPort":5000, "protocol": 17, "packets":300, "bytes":30000, "cost": 46.3}
 ```
 
-保存上述JSON到`examples`目录下的`ingestion-tutorial-data.json`  
-然后继续下面的流程，定义一个用于加载上述数据的导入配置。  
-本教程我们会使用本地批处理indexing任务。如果用其他任务类型，一些导入配置的配置项会有所不同，这里也会指出具体的不同。
+保存上述JSON到`examples`目录下的`ingestion-tutorial-data.json`
+
+然后继续下面的流程，定义一个用于加载上述数据的导入配置。
+
+本教程我们会使用本地批处理索引任务。如果用其他任务类型，一些导入配置的配置项会有所不同，这里也会指出具体的不同。
 
 ### 定义Schema
-Druid导入配置的核心元素是`dataSchema`。他定义了如何解析输入数据成存储到Druid的数据列集的方法。  
-我们开始先定义一个空的`dataSchema`，然后一步步顺着教程添加配置项。  
+Druid导入配置的核心元素是`dataSchema`。他定义了如何解析输入数据成存储到Druid的数据列集的方法。
+
+我们开始先定义一个空的`dataSchema`，然后一步步顺着教程添加配置项。
+
 在`examples`目录下创建一个文件，文件名为`ingestion-tutorial-index.json`，内容为:
 ```
 "dataSchema" : {}
@@ -44,7 +50,8 @@ datasource名称由`dataSchema`的`dataSource`字段指定，我们命名这个�
 }
 ```
 #### 选择一个解析器
-每个`dataSchema`都有一个`parser`字段，定义Druid如何解析输入数据:  
+每个`dataSchema`都有一个`parser`字段，定义Druid如何解析输入数据:
+
 由于我们的数据是JSON格式的，这里我们使用一个json格式字符串解析器:
 ```
 "dataSchema" : {
@@ -58,7 +65,8 @@ datasource名称由`dataSchema`的`dataSource`字段指定，我们命名这个�
 }
 ```
 #### 时间列
-解析器需要知道怎么解析出输入数据的主要时间戳字段。如果使用json的`parseSpec`，使用`timestampSpec`定义时间戳字段。  
+解析器需要知道怎么解析出输入数据的主要时间戳字段。如果使用json的`parseSpec`，使用`timestampSpec`定义时间戳字段。
+
 输入数据的时间戳列名叫`ts`，使用ISO 8601格式，所以我们在`parseSpec`下增加一个`timestampSpec`字段，内容如下:
 ```
 "dataSchema" : {
@@ -76,15 +84,21 @@ datasource名称由`dataSchema`的`dataSource`字段指定，我们命名这个�
 }
 ```
 #### 列的类型
-时间列一定定义好了，我们看一下其他列。  
-Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节我们会看到如何使用这些类型。  
+时间列一定定义好了，我们看一下其他列。
+
+Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节我们会看到如何使用这些类型。
+
 在这之前，我们先讨论一下rollup。
 #### Rollup
-导入数据之前我们需要考虑一下是否需要使用rollup。  
-如果打开rollup，我们需要把输入的列分为两类，**维度** 和 **指标**。维度是rollup组合汇总的根据，指标是要聚合的列。  
-如果关闭rollup，那么所有列都会当成维度 ，不会有预先聚合。  
-这里，我们选择打开rollup。这个在`dataSchema`的`granularitySpec`配置项定义。  
-注意`granularitySpec`字段在`parser`字段外面。但是我们待会会回到`parser`字段里，定义我们的 维度 和 指标   
+导入数据之前我们需要考虑一下是否需要使用rollup。
+
+如果打开rollup，我们需要把输入的列分为两类，**维度** 和 **指标**。维度是rollup组合汇总的根据，指标是要聚合的列。
+
+如果关闭rollup，那么所有列都会当成维度 ，不会有预先聚合。
+
+这里，我们选择打开rollup。这个在`dataSchema`的`granularitySpec`配置项定义。
+
+注意`granularitySpec`字段在`parser`字段外面。但是我们待会会回到`parser`字段里，定义我们的 维度 和 指标
 ```
 "dataSchema" : {
   "dataSource" : "ingestion-tutorial",
@@ -108,7 +122,8 @@ Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节�
 - 维度: `srcIP`, `srcPort`, `dstIP`, `dstPort`, `protocol`
 - 指标: `packets`, `bytes`, `cost`
 
-这里的维度是标识一对单向IP流量的一组属性，指标是根据维度分组指定的IP流量的事实。  
+这里的维度是标识一对单向IP流量的一组属性，指标是根据维度分组指定的IP流量的事实。
+
 接下来看如何配置这些维度和指标
 ##### 维度
 维度定义在`parseSpec`的`dimensionsSpec`
@@ -139,11 +154,15 @@ Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节�
   }
 }
 ```
-每个指标有一个名称`name`和一个类型`type`，类型可以是`long`, `float`, `double`, 或者 `string`。  
-`srcIP`是一个字符串`string`维度。对于字符串维度，只需要定义维度名称就足够了，因为维度的默认类型就是字符串。  
+每个指标有一个名称`name`和一个类型`type`，类型可以是`long`, `float`, `double`, 或者 `string`。
+
+`srcIP`是一个字符串`string`维度。对于字符串维度，只需要定义维度名称就足够了，因为维度的默认类型就是字符串。
+
 `protocol`是一个数字型`numeric`的维度，但是我们还是当成字符串导入；Druid在导入时会自动把long转为string。
+
 ###### Strings vs. Numerics
-怎么判定一个数字型的维度，是按数字型的维度，还是按字符串维度导入?  
+怎么判定一个数字型的维度，是按数字型的维度，还是按字符串维度导入?
+
 相比字符串，数字型有以下优缺点:
 - 优点：在读取列值是，占用更小的空间和更低的处理开销
 - 缺点：没有索引，因此过滤会比对等的字符串维度(位图索引)要慢
@@ -169,7 +188,7 @@ Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节�
           { "name" : "dstPort", "type" : "long" },
           { "name" : "protocol", "type" : "string" }
         ]
-      }   
+      }
     }
   },
   "metricsSpec" : [
@@ -183,9 +202,12 @@ Druid支持列类型有：`String`, `Long`, `Float`, `Double`。下面的章节�
   }
 }
 ```
-定义metric需要制定rollup需要执行的聚合类型。  
-这里我们定义两个整型`long`类型指标`packets`和`bytes`，和一个浮点型`double`类型的`cost`。  
-注意`metricsSpec`与`dimensionSpec`或者`parseSpec`都不在一个嵌套级别内；而是在`dataSchema`内，和`parser`一个嵌套级别。  
+定义metric需要制定rollup需要执行的聚合类型。
+
+这里我们定义两个整型`long`类型指标`packets`和`bytes`，和一个浮点型`double`类型的`cost`。
+
+注意`metricsSpec`与`dimensionSpec`或者`parseSpec`都不在一个嵌套级别内；而是在`dataSchema`内，和`parser`一个嵌套级别。
+
 注意我们还定义了一个`count`聚合。这个聚合会统计有多少行的原始输入数据合并到最终导入的"rolled up"行里。
 
 #### 不 rollup
@@ -270,7 +292,7 @@ segment粒度定义在`granularitySpec`的`segmentGranularity`字段。这里我
           { "name" : "dstPort", "type" : "long" },
           { "name" : "protocol", "type" : "string" }
         ]
-      }      
+      }
     }
   },
   "metricsSpec" : [
@@ -296,7 +318,8 @@ segment粒度定义在`granularitySpec`的`segmentGranularity`字段。这里我
 {"ts":"2018-01-01T01:03:00Z","srcIP":"1.1.1.1", "dstIP":"2.2.2.2", "srcPort":5000, "dstPort":7000, "protocol": 6, "packets":60, "bytes":6000, "cost": 4.3}
 ```
 #### 定义一个时间段(只有批处理生效)
-对于批处理任务需要定义一个时间段，时间戳在时间段之外的数据会被忽略掉:  
+对于批处理任务需要定义一个时间段，时间戳在时间段之外的数据会被忽略掉:
+
 这个时间段也定义在`granularitySpec`
 ```
 "dataSchema" : {
@@ -317,7 +340,7 @@ segment粒度定义在`granularitySpec`的`segmentGranularity`字段。这里我
           { "name" : "dstPort", "type" : "long" },
           { "name" : "protocol", "type" : "string" }
         ]
-      }      
+      }
     }
   },
   "metricsSpec" : [
@@ -359,8 +382,8 @@ segment粒度定义在`granularitySpec`的`segmentGranularity`字段。这里我
               { "name" : "dstIP", "type" : "string" },
               { "name" : "dstPort", "type" : "long" },
               { "name" : "protocol", "type" : "string" }
-            ]              
-          }      
+            ]
+          }
         }
       },
       "metricsSpec" : [
@@ -513,8 +536,9 @@ segment粒度定义在`granularitySpec`的`segmentGranularity`字段。这里我
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/ingestion-tutorial-index.json http://localhost:8090/druid/indexer/v1/task
 ```
-然后执行查询，  
-我们执行一个`a select * from "ingestion-tutorial";`查询来看导入的数据:
+然后执行查询，
+
+我们执行一个`select * from "ingestion-tutorial";`查询来看导入的数据:
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/ingestion-tutorial-select-sql.json http://localhost:8082/druid/v2/sql
 ```

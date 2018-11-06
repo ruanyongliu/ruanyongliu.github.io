@@ -98,7 +98,7 @@ transformSpec | JSON | 指定输入数据过滤和转换的方式，可浏览[�
 
 配置项 | 类型 | 描述 | 必须
 ---- | ---- | ---- | ----
-type | 字符串 | 一般是`string`，或者如果使用的Hadoop indexing任务时的`hadoopyString` | 否
+type | 字符串 | 一般是`string`，或者如果使用的Hadoop索引任务时的`hadoopyString` | 否
 parseSpec | JSON | 指定格式、时间戳和数据的维度 | 是
 
 ##### ParseSpec
@@ -179,8 +179,10 @@ dimensionExclusions | 字符串JSON数组 | 导入时需要排除的维度 | 否
 spatialDimensions | JSON数组 | 一个[空间维度](/TODO)数组 | 否，默认`[]`
 
 ##### <a id="dimension-schema" class="anchor">维度结构对象</a>
-维度结构对象指定了数据上一列的类型和名称。  
-对于字符串列，维度结构可以通过设置`createBitmapIndex`开启或关闭位图索引。默认情况下位图索引对于所有字符串类型的列都是开启的。只有字符串类型可以可用位图索引，数字型的列还不支持。  
+维度结构对象指定了数据上一列的类型和名称。
+
+对于字符串列，维度结构可以通过设置`createBitmapIndex`开启或关闭位图索引。默认情况下位图索引对于所有字符串类型的列都是开启的。只有字符串类型可以可用位图索引，数字型的列还不支持。
+
 例如下面的`dimensionsSpec`，有一列`Long`类型`countryNum`，两列`Float`(`userLatitude`和`userLongitude`)，其他列都为字符串，其中`comment`列关闭了位图索引。
 ```
 "dimensionsSpec" : {
@@ -233,7 +235,7 @@ spatialDimensions | JSON数组 | 一个[空间维度](/TODO)数组 | 否，默�
 segmentGranularity | 字符串 | segment的创建粒度 | 否，默认`DAY`
 queryGranularity | 字符串 | 最小的可查询的粒度，也是segment保存数据的粒度。例如`minute`表示数据会按分钟级别聚合。也就是说，如果数据在元组`minute(timestamp), dimensions`上冲突，Druid会使用聚合器将数据汇总在一起，而不是存储单独的数据行。`NONE`粒度表示的毫秒粒度 | 否，默认`NONE`
 rollup | 布尔 | 是否rollup | 否，默认`true`
-intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽略这个参数 | 否，如果指定了，批量导入任务可能会跳过分区决定阶段，导致更快的导入 
+intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽略这个参数 | 否，如果指定了，批量导入任务可能会跳过分区决定阶段，导致更快的导入
 
 ##### Arbitrary Granularity Spec
 用于创建任意时间段的segment(尝试创建大小均匀的segment)。不支持实时处理流程。
@@ -242,7 +244,7 @@ intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽�
 ---- | ---- | ---- | ----
 queryGranularity | 字符串 | 最小的可查询的粒度，也是segment保存数据的粒度。例如`minute`表示数据会按分钟级别聚合。也就是说，如果数据在元组`minute(timestamp), dimensions`上冲突，Druid会使用聚合器将数据汇总在一起，而不是存储单独的数据行。`NONE`粒度表示的毫秒粒度 | 否，默认`NONE`
 rollup | 布尔 | 是否rollup | 否，默认`true`
-intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽略这个参数 | 否，如果指定了，批量导入任务可能会跳过分区决定阶段，导致更快的导入 
+intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽略这个参数 | 否，如果指定了，批量导入任务可能会跳过分区决定阶段，导致更快的导入
 #### Transform Spec
 指定输入数据过滤和转换的方式，可浏览[转换配置](/TODO)。
 
@@ -250,7 +252,7 @@ intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽�
 不同的任务类型，有不同的格式：
 - 本地批处理 : [本地批处理IOConfig](/TODO)
 - Hadoop批处理 : [Hadoop批处理IOConfig](/TODO)
-- Kafka Indexing服务 : [Kafka Supervisor IOConfig](/TODO)
+- Kafka索引服务 : [Kafka Supervisor IOConfig](/TODO)
 - 流式推送 : Tranquility流式推送不需要IO Config
 - 流式拉取(已废弃) : [流式拉取导入](/TODO)
 
@@ -259,7 +261,7 @@ intervals | 字符串 | 导入数据落在的时间返回。实时导入会忽�
 不同的任务类型，有不同的格式：
 - 本地批处理 : [本地批处理TunningConfig](/TODO)
 - Hadoop批处理 : [Hadoop批处理TunningConfig](/TODO)
-- Kafka Indexing服务 : [Kafka Supervisor TuningConfig](/TODO)
+- Kafka索引服务 : [Kafka Supervisor TuningConfig](/TODO)
 - 流式推送 : [Tranquility TunningConfig](/TODO)
 - 流式拉取(已废弃) : [流式拉取导入](/TODO)
 

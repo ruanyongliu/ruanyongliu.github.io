@@ -1,4 +1,5 @@
-Firehose在[本地批量导入任务](/TODO)，[Tranquility](/TODO)自动创建的流式推送任务，和[流式拉取(已废弃)]导入模型中使用。  
+Firehose在[本地批量导入任务](/TODO)，[Tranquility](/TODO)自动创建的流式推送任务，和[流式拉取(已废弃)]导入模型中使用。
+
 他们是可插拔的，因此配置结果可以根据firehose的类型`type`而变化
 
 配置项 | 类型 | 描述 | 必须
@@ -90,7 +91,8 @@ delegates | 合并数据的firehose | 是
   "bufferSize": 10000
 }
 ```
-使用这个firehose, 事件可以通过提交一个POST请求到一个http服务：  
+使用这个firehose, 事件可以通过提交一个POST请求到一个http服务：
+
 `http://<peonHost>:<port>/druid/worker/v1/chat/<eventReceiverServiceName>/push-events/`
 
 配置项 | 描述 | 必须
@@ -99,8 +101,10 @@ type | 这里必须是`receiver` | 是
 serviceName | 事件接受服务的名称 | 是
 bufferSize | firehose保存事件的缓冲区大小 | 否，默认`100000`
 
-可以通过提交POST请求来指定EventReceiverFirehose的关闭时间  
-`http://<peonHost>:<port>/druid/worker/v1/chat/<eventReceiverServiceName>/shutdown?shutoffTime=<shutoffTime>`  
+可以通过提交POST请求来指定EventReceiverFirehose的关闭时间
+
+`http://<peonHost>:<port>/druid/worker/v1/chat/<eventReceiverServiceName>/shutdown?shutoffTime=<shutoffTime>`
+
 如果`shutOffTime`没有指定，firehose会立刻关闭
 
 ##### 指定结束时间Firehose

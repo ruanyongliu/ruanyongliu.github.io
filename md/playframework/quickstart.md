@@ -1,4 +1,5 @@
-Play是一个轻量级的web框架，基于akka。这里不重点深入，也会隐去细节，简单提供一个基于sbt & scala构建的搭建步骤。  
+Play是一个轻量级的web框架，基于akka。这里不重点深入，也会隐去细节，简单提供一个基于sbt & scala构建的搭建步骤。
+
 如需深入学习，建议阅读官网wiki。
 ##### 开始吧
 ### 项目目录结构
@@ -33,7 +34,7 @@ $application
 #### project/
 project目录里的文件会和build.sbt共同定义sbt构建。sbt的详细说明可以参考官网文档，这里不再详细描述。
 ##### build.properties
-```sbt.version=1.1.6 # 与本地sbt版本保持一致``` 
+```sbt.version=1.1.6 # 与本地sbt版本保持一致```
 ##### plugins.sbt
 ```
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.6")              // 类似maven的assembly插件，将工程和依赖一起打包
@@ -45,7 +46,7 @@ Play的主要配置文件
 ```
 # https://www.playframework.com/documentation/latest/ConfigFile
 #include "extra-config.conf" # 引入其他配置
-# 
+#
 #mykey = ${some.value} # 自定义变量，包括使用环境变量
 #mykey = ${JAVA_HOME}
 
@@ -186,7 +187,7 @@ play.filters {
   headers {
     #frameOptions = "DENY"                             # X-Frame-Options header
     #xssProtection = "1; mode=block"                   # X-XSS-Protection header.
-    #contentTypeOptions = "nosniff"                    # X-Content-Type-Options header.  
+    #contentTypeOptions = "nosniff"                    # X-Content-Type-Options header.
     #permittedCrossDomainPolicies = "master-only"      # X-Permitted-Cross-Domain-Policies header
     contentSecurityPolicy = "default-src 'self' https://cdn.bootcss.com 'unsafe-inline'"  # Content-Security-Policy header.
   }
@@ -264,18 +265,18 @@ GET     /path                       MyController.do2(q1: String)
 ### build.sbt
 sbt使用手册可参考：https://www.scala-sbt.org/0.13/docs/zh-cn/index.html
 ```
-organization := "$groupId" 
+organization := "$groupId"
 name := "$artifactId"
 version := "1.0-SNAPSHOT"
 scalaVersion := "2.11.8"
 
 lazy val root = (project in file("."))
-        .enablePlugins(PlayScala)           
+        .enablePlugins(PlayScala)
         .disablePlugins(PlayLayoutPlugin)    # 默认使用play官方的目录结构。添加以下两句，则使用传统的maven目录结构
 
 PlayKeys.playMonitoredFiles ++= (sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value
 
-resolvers += Resolver.mavenLocal 
+resolvers += Resolver.mavenLocal
 libraryDependencies ++= Seq(
     guice,            # 依赖注入框架
     akkaHttpServer,   # 使用akka http server
@@ -310,9 +311,9 @@ class MyController @Inject()(cc: ControllerComponents) extends AbstractControlle
 ```
 ### 部署
 ```sbt run```
-此方式会以dev模式运行，并且支持热部署，特别方便调试和测试。  
-若需要正式上线，则使用```sbt assembly```编译成一个jar包(```target/scala-2.11/$name-assembly-$version.jar```)，再部署(```java -jar $name-assembly-$version.jar```)在容器上。  
+此方式会以dev模式运行，并且支持热部署，特别方便调试和测试。
+若需要正式上线，则使用```sbt assembly```编译成一个jar包(```target/scala-2.11/$name-assembly-$version.jar```)，再部署(```java -jar $name-assembly-$version.jar```)在容器上。
 
-##### 至此，服务应该就能成功启动了，默认端口为9000，访问host:9000即可。  
+##### 至此，服务应该就能成功启动了，默认端口为9000，访问host:9000即可。
 ###### 感谢阅读。文中不免有错的地方，欢迎指出。感谢！
 

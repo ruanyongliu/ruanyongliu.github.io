@@ -1,9 +1,12 @@
-本教程介绍如何删除数据。  
-阅读本教程之前，我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
+本教程介绍如何删除数据。
+
+阅读本教程之前，我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。
+
 由于我们使用了保留规则，强烈建议先阅读 [教程：保留规则](#!/tutorials/tutorial-retention) 。
 
 ### 加载初始数据
-本教程我们会使用维基的修改数据和一份创建小时级segment的配置。配置放在`examples/deletion-index.json`，它会创建一个叫`deletion-tutorial`的datasource。  
+本教程我们会使用维基的修改数据和一份创建小时级segment的配置。配置放在`examples/deletion-index.json`，它会创建一个叫`deletion-tutorial`的datasource。
+
 加载初始数据:
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-index.json http://localhost:8090/druid/indexer/v1/task
@@ -18,13 +21,20 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-index.js
 下面我们来丢弃一些segment，先用加载规则，手动再试一次。
 
 ### 使用加载规则丢弃数据
-使用之前的保留规则教程相同的数据，`deletion-tutorial`总共有24个segment。  
-点击页面左上角带有一个铅笔图标的`edit rules`按钮。  
-弹出一个规则配置窗口，在`user`和`changelog comment`输入框输入`tutorial`。  
-点击`+ Add a rule`按钮两次。  
-在顶部`rule #1`，点击`Load`，`Interval`，在`interval`输入框输入`2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z`，点击`+ _default_tier replicant`。  
-底部的`rule #2`, 点击`Drod`和`Forever`。  
-这会使`deletion-tutorial`的前12个segment被丢弃，但是这些被丢弃的segment不会从深度存储移除。  
+使用之前的保留规则教程相同的数据，`deletion-tutorial`总共有24个segment。
+
+点击页面左上角带有一个铅笔图标的`edit rules`按钮。
+
+弹出一个规则配置窗口，在`user`和`changelog comment`输入框输入`tutorial`。
+
+点击`+ Add a rule`按钮两次。
+
+在顶部`rule #1`，点击`Load`，`Interval`，在`interval`输入框输入`2015-09-12T12:00:00.000Z/2015-09-13T00:00:00.000Z`，点击`+ _default_tier replicant`。
+
+底部的`rule #2`, 点击`Drod`和`Forever`。
+
+这会使`deletion-tutorial`的前12个segment被丢弃，但是这些被丢弃的segment不会从深度存储移除。
+
 通过查看`var/druid/segments/deletion-tutorial`你会发现仍然有24个segment存在。
 ```
 $ ls -l1 var/druid/segments/deletion-tutorial/
@@ -55,16 +65,19 @@ $ ls -l1 var/druid/segments/deletion-tutorial/
 ```
 
 ### 手动关闭一个segment
-现在尝试手动关闭一个segment。这会标记一个segment为"unused"，但不会在深度存储移除。  
+现在尝试手动关闭一个segment。这会标记一个segment为"unused"，但不会在深度存储移除。
+
 打开 http://localhost:8081/#/datasources/deletion-tutorial ，点击任意一个在左边栏的segment，查看他的详细信息:
 ![](http://druid.io/docs/0.12.3/tutorials/img/tutorial-deletion-01.png)
 
-顶部是完整的 segment ID, 例14时的segmentId为`deletion-tutorial_2016-06-27T14:00:00.000Z_2016-06-27T15:00:00.000Z_2018-07-27T22:57:00.110Z`  
+顶部是完整的 segment ID, 例14时的segmentId为`deletion-tutorial_2016-06-27T14:00:00.000Z_2016-06-27T15:00:00.000Z_2018-07-27T22:57:00.110Z`
+
 我们通过发送下面的`DELETE`请求到coordinator来关闭14时的segment，其中`{SEGMENT-ID}`就是在信息栏里显示的完整segment ID
 ```
 curl -XDELETE http://localhost:8081/druid/coordinator/v1/datasources/deletion-tutorial/segments/{SEGMENT-ID}
 ```
-命令发送完成后，你应该就能看到14时的segment被关闭了。  
+命令发送完成后，你应该就能看到14时的segment被关闭了。
+
 ![](http://druid.io/docs/0.12.3/tutorials/img/tutorial-deletion-02.png)
 
 注意这个14时的segment还在深度存储
@@ -96,7 +109,8 @@ $ ls -l1 var/druid/segments/deletion-tutorial/
 2015-09-12T23:00:00.000Z_2015-09-13T00:00:00.000Z
 ```
 ### 执行kill任务
-现在我们已经关闭一些segment了，接下来我们可以提交一个Kill任务，来从元数据和深度存储删除掉这些关闭的segment。  
+现在我们已经关闭一些segment了，接下来我们可以提交一个Kill任务，来从元数据和深度存储删除掉这些关闭的segment。
+
 `examples/deletion-kill.json`提供了一个Kill任务配置，使用下面的命令提交到Overlord：
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/deletion-kill.json http://localhost:8090/druid/indexer/v1/task

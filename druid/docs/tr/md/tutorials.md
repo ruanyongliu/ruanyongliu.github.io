@@ -5,7 +5,8 @@
 - 8G内存
 - 2 vCPUs
 
-Mac OS X，可以使用[Oracle's JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)来安装Java  
+Mac OS X，可以使用[Oracle's JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)来安装Java
+
 Linux的包管理工具应该会有帮助。如果是Ubuntu-based的系统，并且Java版本过低，可以使用WebUpd8提供的[安装包](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
 
 ### 开始安装
@@ -26,7 +27,8 @@ cd druid-0.12.3
 - `quickstart/*` - quickstart有用的文件
 
 ### 下载教程用例文件
-继续操作前，请下载[用例文件](http://druid.io/docs/0.12.3/tutorials/tutorial-examples.tar.gz)  
+继续操作前，请下载[用例文件](http://druid.io/docs/0.12.3/tutorials/tutorial-examples.tar.gz)
+
 安装包包含了样例数据和导入配置。
 ```
 curl -O http://druid.io/docs/0.12.3/tutorials/tutorial-examples.tar.gz
@@ -58,8 +60,9 @@ java `cat examples/conf/druid/broker/jvm.config | xargs` -cp "examples/conf/drui
 ```
 一旦所有服务启动了，就可以开始加载数据了
 #### <a id="resetting-cluster-state" class="anchor">重置Druid状态</a>
-所有持久状态，如集群元数据存储和segment会保存在`druid-0.12.3`的`var`目录。  
-因此之后如果你想停掉服务，使用`Ctrl-C`关闭执行中的java进程。如果想重新启动一个干净的环境，删除`log`和`var`目录，执行`init`脚本，然后停掉Zookeeper，删除ZooKeeper的数据目录`/tmp/zookeeper`  
+所有持久状态，如集群元数据存储和segment会保存在`druid-0.12.3`的`var`目录。
+
+因此之后如果你想停掉服务，使用`Ctrl-C`关闭执行中的java进程。如果想重新启动一个干净的环境，删除`log`和`var`目录，执行`init`脚本，然后停掉Zookeeper，删除ZooKeeper的数据目录`/tmp/zookeeper`
 
 在`druid-0.12.3`目录：
 ```
@@ -67,7 +70,8 @@ rm -rf log
 rm -rf var
 bin/init
 ```
-如果你执行的是[教程:从Kafka加载流式数据](#!/tutorials/tutorial-kafka)，你应该在关掉Zookeeper之前关掉Kafka，然后删除Kafka日志目录`/tmp/kafka-logs`  
+如果你执行的是[教程:从Kafka加载流式数据](#!/tutorials/tutorial-kafka)，你应该在关掉Zookeeper之前关掉Kafka，然后删除Kafka日志目录`/tmp/kafka-logs`
+
 `Ctrl-C`关闭kafka broker，然后删除目录:
 ```
 rm -rf /tmp/kafka-logs
@@ -81,8 +85,10 @@ rm -rf /tmp/zookeeper
 重置完Druid和Zookeeper状态，重启Zookeeper，然后重启Druid服务。
 
 ### 加载数据
-接下来的数据加载教程，我们使用一个样例数据，包含2015-09-12当天维基页面的修改事件。  
-样例数据保存在Druid目录的`quickstart/wikiticker-2015-09-12-sampled.json.gz`。事件按json格式存储一个文本文件内。  
+接下来的数据加载教程，我们使用一个样例数据，包含2015-09-12当天维基页面的修改事件。
+
+样例数据保存在Druid目录的`quickstart/wikiticker-2015-09-12-sampled.json.gz`。事件按json格式存储一个文本文件内。
+
 样例数据包含以下列，例：
 - added
 - channel

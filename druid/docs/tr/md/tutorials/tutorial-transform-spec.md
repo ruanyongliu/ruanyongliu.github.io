@@ -1,5 +1,7 @@
-本教程会介绍如何使用转换配置来过滤和如何在转换导入数据。  
-我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+本教程会介绍如何使用转换配置来过滤和如何在转换导入数据。
+
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。
+
 完成 [教程：加载文件](#!/tutorials/tutorial-batch) 和 [教程：查询数据](#!/tutorials/tutorial-query) 的阅读会更有帮助。
 
 ### 样例数据
@@ -97,7 +99,8 @@
 - `triple-number`要等于`300`
 - `location`要等于`3`
 
-这个过滤会保留样例数据的前三行，丢弃掉最后一行`lion`。过滤会在转换之后执行。  
+这个过滤会保留样例数据的前三行，丢弃掉最后一行`lion`。过滤会在转换之后执行。
+
 配置有同样一份在`examples/transform-index.json`，提交：
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/transform-index.json http://localhost:8090/druid/indexer/v1/task

@@ -1,6 +1,9 @@
-Druid在导入时使用一个进程，称为`roll-up`，来汇总原始数据。Roll-up是一个作用在维度集合之上的顶级的聚合操作，聚合一个指标集合，来减少存储segment的数据量。  
-本章节会在一个样例数据集上介绍`roll-up`的效果。  
-我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。  
+Druid在导入时使用一个进程，称为`roll-up`，来汇总原始数据。Roll-up是一个作用在维度集合之上的顶级的聚合操作，聚合一个指标集合，来减少存储segment的数据量。
+
+本章节会在一个样例数据集上介绍`roll-up`的效果。
+
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。
+
 完成 [教程：加载文件](#!/tutorials/tutorial-batch) 和 [教程：查询数据](#!/tutorials/tutorial-query) 的阅读会更有帮助。
 ### 样例数据
 在本章节我们使用一个小的网络流量事件数据作为样例，包含了在一段时间内的两个端点之间的网络包的的数量和大小。
@@ -15,7 +18,8 @@ Druid在导入时使用一个进程，称为`roll-up`，来汇总原始数据。
 {"timestamp":"2018-01-02T21:33:45Z","srcIP":"7.7.7.7", "dstIP":"8.8.8.8","packets":123,"bytes":93999}
 {"timestamp":"2018-01-02T21:35:45Z","srcIP":"7.7.7.7", "dstIP":"8.8.8.8","packets":12,"bytes":2818}
 ```
-包含这个输入数据的文件在`examples/rollup-data.json`  
+包含这个输入数据的文件在`examples/rollup-data.json`
+
 我们使用下面的导入任务配置来导入数据，配置放在`examples/rollup-ingest.json`
 ```
 {
@@ -70,8 +74,10 @@ Druid在导入时使用一个进程，称为`roll-up`，来汇总原始数据。
   }
 }
 ```
-Roll-up已经通过配置项`granularitySpec`里的`"rollup": true`开启了。  
-我们把`srcIP`和`dstIP`定义为维度，`packets`和`bytes`定义为整型指标，查询粒度设为分钟。  
+Roll-up已经通过配置项`granularitySpec`里的`"rollup": true`开启了。
+
+我们把`srcIP`和`dstIP`定义为维度，`packets`和`bytes`定义为整型指标，查询粒度设为分钟。
+
 我们之后会看到加载数据之后这个定义是怎么被使用的。
 ### 加载样例数据
 在`druid-0.12.3`目录，执行：
@@ -80,7 +86,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-index.json
 ```
 数据加载后，开始查询数据。
 ### 查询样例数据
-我们执行一个`select * from "rollup-tutorial"`命令；查询看我们导入的数据。  
+我们执行一个`select * from "rollup-tutorial"`命令；查询看我们导入的数据。
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-select-sql.json http://localhost:8082/druid/v2/sql
 ```
@@ -146,8 +152,10 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/rollup-select-sql
     "srcIP": "1.1.1.1"
   },
 ```
-输入数据已经根据时间戳`timestamp`和维度列`{timestamp, srcIP, dstIP}`来汇总`packets`和`bytes`指标了。  
-由于导入配置的配置项`"queryGranularity":"minute"`，在汇总前，输入数据的时间戳格式化到分钟了。  
+输入数据已经根据时间戳`timestamp`和维度列`{timestamp, srcIP, dstIP}`来汇总`packets`和`bytes`指标了。
+
+由于导入配置的配置项`"queryGranularity":"minute"`，在汇总前，输入数据的时间戳格式化到分钟了。
+
 同样，下面两个在`2018-01-01T01:02`的事件被roll up成:
 ```
 {"timestamp":"2018-01-01T01:02:14Z","srcIP":"1.1.1.1", "dstIP":"2.2.2.2","packets":38,"bytes":6289}

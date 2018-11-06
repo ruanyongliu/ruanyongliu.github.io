@@ -1,11 +1,14 @@
-这一章说的是如何更新现有数据，包括重写和添加。  
-我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。    
+这一章说的是如何更新现有数据，包括重写和添加。
+
+我们假设你已经在你本地机器下载安装了之前在[quickstart章节](#!/tutorials)介绍Druid。
+
 完成 [教程：加载文件](#!/tutorials/tutorial-batch)、[教程：查询数据](#!/tutorials/tutorial-query) 和 [教程：Rollup](#!/tutorials/tutorial-rollup) 的阅读会更有帮助。
 
 ### 重写
 这一节会介绍如何重写一段已经存在的某个时间段的数据。
 #### 加载初始数据
-让我们先加载一份初始数据集用于之后的重写和添加。  
+让我们先加载一份初始数据集用于之后的重写和添加。
+
 这个教程用到的配置放在了`examples/updates-init-index.json`。这份配置从`examples/updates-data.json`输入文件那创建一个名叫`updates-tutorial`的datasource。
 提交任务：
 ```
@@ -38,9 +41,12 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-select-sq
 ]
 ```
 #### 重写初始数据
-要重写这份数据，我们可以提交另外一个任务，包含相同的时间段但不同的数据。  
-`examples/updates-overwrite-index.json`配置会在`updates-tutorial`datasource执行重写。  
-注意这个任务从`examples/updates-data2.json`读取输入数据，`appendToExisting`也设置为`false`(表示这个一个重写动作)。  
+要重写这份数据，我们可以提交另外一个任务，包含相同的时间段但不同的数据。
+
+`examples/updates-overwrite-index.json`配置会在`updates-tutorial`datasource执行重写。
+
+注意这个任务从`examples/updates-data2.json`读取输入数据，`appendToExisting`也设置为`false`(表示这个一个重写动作)。
+
 提交任务：
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-overwrite-index.json http://localhost:8090/druid/indexer/v1/task
@@ -72,7 +78,8 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-select-sq
 ]
 ```
 ### 添加数据
-`examples/updates-append-index.json`任务配置从`examples/updates-data3.json`读取数据，并添加到`updates-tutorial`datasource。此时`appendToExisting`设置为`true`。  
+`examples/updates-append-index.json`任务配置从`examples/updates-data3.json`读取数据，并添加到`updates-tutorial`datasource。此时`appendToExisting`设置为`true`。
+
 提交任务：
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-append-index.json http://localhost:8090/druid/indexer/v1/task
@@ -136,8 +143,9 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-append-in
   }
 ]
 ```
-如果我们执行一个GroupBy查询`select *`，我们可以看到之前分开的`lion`和`bear`会合并到一起。  
-`select __time, animal, SUM("count"), SUM("number") from "updates-tutorial" group by __time, animal;`   
+如果我们执行一个GroupBy查询`select *`，我们可以看到之前分开的`lion`和`bear`会合并到一起。
+
+`select __time, animal, SUM("count"), SUM("number") from "updates-tutorial" group by __time, animal;`
 ```
 curl -X 'POST' -H 'Content-Type:application/json' -d @examples/updates-groupby-sql.json http://localhost:8082/druid/v2/sql
 ```

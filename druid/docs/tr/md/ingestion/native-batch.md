@@ -1,4 +1,4 @@
-Index任务是Druid本地批量导入机制。任务运行在indexing服务内部，无需安装另外的Hadoop。index任务配置语法如下：
+索引任务是Druid本地批量导入机制。任务运行在索引服务内部，无需安装另外的Hadoop。任务配置语法如下：
 ```
 {
   "type" : "index",
@@ -75,8 +75,10 @@ spec | 包括`dataSchema`, `ioConfig`和`tuningConfig`配置。详情请看下�
 context | 包括多个任务配置参数。详情请看下面 | 否
 
 ### 任务优先级
-Druid的indexing任务用锁保证数据导入的原子性。锁会在datasource和时间段上获得。一旦有一个任务获得了一个锁，他就可以给对应的datasource和时间段写数据，直到锁被释放或者被抢占。  
-每个任务都有一个获得锁的优先级。如果同时请求相同datasource和相同时间段的上的锁，高优先级的任务就能抢占低优先级任务的这个锁。如果任务的锁被抢占，不同的任务会有不同的处理方式，通常会表示失败然后结束。  
+Druid的索引任务用锁保证数据导入的原子性。锁会在datasource和时间段上获得。一旦有一个任务获得了一个锁，他就可以给对应的datasource和时间段写数据，直到锁被释放或者被抢占。
+
+每个任务都有一个获得锁的优先级。如果同时请求相同datasource和相同时间段的上的锁，高优先级的任务就能抢占低优先级任务的这个锁。如果任务的锁被抢占，不同的任务会有不同的处理方式，通常会表示失败然后结束。
+
 任务根据类型有不同的默认优先级，这里列举了各类型的默认优先级，数字越大优先级越高:
 
 任务类型 | 默认优先级
@@ -115,8 +117,8 @@ maxRowsInMemory | 内存保存的最大数据行数，也就是决定持久化�
 maxTotalRows | segment保存的最大行数，也就是决定发布segment的发生条件 | 150,000 | 否
 numShards | 直接定义分片数，如果声明了，并且 `granularitySpec` 的 `intervals` 也声明了，任务会跳过时间间隔分区。不能和 `targetPartitionSize` 同时设置 | | 否
 indexSpec | 定义segment导入时的存储格式 | | 否
-maxPendingPersists | 等待但还没开始的持久化过程的最大数量。如果一个持久化过程开始导致数量上超出了限制，导入会被阻塞直到当前运行的持久化过程结束。indexing最多会使用 `maxRowsInMemory x (2 + maxPendingPersists)` 这么多的堆物理内存空间。| 0 (表示只能同时执行一个持久化过程，并且没有其他在等待) | 否
-forceExtendableShardSpecs | 强制使用 `extendable` 的 `shardSpecs` 配置。旨在与[Kafka indexing服务扩展](/TODO)一起使用的实验功能。 | false | 否
+maxPendingPersists | 等待但还没开始的持久化过程的最大数量。如果一个持久化过程开始导致数量上超出了限制，导入会被阻塞直到当前运行的持久化过程结束。服务最多会使用 `maxRowsInMemory x (2 + maxPendingPersists)` 这么多的堆物理内存空间。| 0 (表示只能同时执行一个持久化过程，并且没有其他在等待) | 否
+forceExtendableShardSpecs | 强制使用 `extendable` 的 `shardSpecs` 配置。旨在与[Kafka索引服务扩展](/TODO)一起使用的实验功能。 | false | 否
 forceGuaranteedRollup | 强制保证[perfect rollup](#!/ingestion#perfect-rollup)。优化segment的大小和查询效率。导入的时间会增加。不能和 `IOConfig` 的 `appendToExisting` 和 `forceExtendableShardSpecs` 一起使用。详情请看下面**segment发布模式**章节 | false | 否
 reportParseExceptions | true表示导入中的exception会catch住并终止导入；否则对应错误行会跳过 | false | 否
 publishTimeout | 单位毫秒。segment发布最长等待时间。0表示一直等待 | 0 | 否
@@ -147,9 +149,9 @@ type | 字符串 | 必须是roaring | 是
 compressRunOnSerialization | 布尔值 | 运行时预估长度来编码，更好的空间使用效率 | 否，默认true
 
 ### segment发布模式
-使用Index任务导入数据，任务负责根据输入数据创建和发布segment。对于segment发布，任务支持类型segment发布模式——bulk发布模式和incremental发布模式，分别对应perfect rollup和best-effort rollup。  
-- **bluk发布模式**，index会在完成时才会发布segment。在这之前，创建的segment会存储在运行时的节点的内存和本地存储。结果就是这种模式可能会带来存储空间不足的问题，因此不推荐在生产环境上使用。
-- **incremental发布模式**，segment增量发布，因此可以在index运行期间发布。更准确地说，任务收集数据，存储在运行时的内存和本地硬盘，直到行数超过了`maxTotalRows`设置。一旦到了设置上限，任务会立即发布所有的segment，然后清除，继续导入数据。
+使用索引任务导入数据，任务负责根据输入数据创建和发布segment。对于segment发布，任务支持类型segment发布模式——bulk发布模式和incremental发布模式，分别对应perfect rollup和best-effort rollup。
+- **bluk发布模式**，任务会在完成时才会发布segment。在这之前，创建的segment会存储在运行时的节点的内存和本地存储。结果就是这种模式可能会带来存储空间不足的问题，因此不推荐在生产环境上使用。
+- **incremental发布模式**，segment增量发布，因此可以在任务运行期间发布。更准确地说，任务收集数据，存储在运行时的内存和本地硬盘，直到行数超过了`maxTotalRows`设置。一旦到了设置上限，任务会立即发布所有的segment，然后清除，继续导入数据。
 
 如果要打开bulk发布模式，`forceGuaranteedRollup`要设置上。注意不能和`forceExtendableShardSpecs` 和 `appendToExisting` 一起使用。
 

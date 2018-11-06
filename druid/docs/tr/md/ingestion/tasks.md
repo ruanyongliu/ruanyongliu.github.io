@@ -1,5 +1,7 @@
-任务运行在MiddleManager，一般只处理一个单一的数据源。  
-任务通过发送一个POST请求给Overlord。API详细介绍请浏览[Overlord任务API](/TODO)  
+任务运行在MiddleManager，一般只处理一个单一的数据源。
+
+任务通过发送一个POST请求给Overlord。API详细介绍请浏览[Overlord任务API](/TODO)
+
 总共有下面几类任务。
 ### segment创建任务
 #### 本地批处理Indexing任务

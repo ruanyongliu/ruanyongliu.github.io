@@ -1,7 +1,7 @@
 通过一个Hadoop导入任务，支持基于Hadoop的批量导入。这类任务发布到一个[Druid overlord进程](#!/design/overlord)的运行实例。
 
 ### 命令行Hadoop Indexer
-如果你不想用一个完整的indexing服务来使用Hadoop导入数据，你也可以用一个独立的命令行Hadoop indexer。详情请看[这里](#!/ingestion/command-line-hadoop-indexer)。
+如果你不想用一个完整的索引服务来使用Hadoop导入数据，你也可以用一个独立的命令行Hadoop indexer。详情请看[这里](#!/ingestion/command-line-hadoop-indexer)。
 
 ### 配置语法
 ```
@@ -132,7 +132,7 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 属性 | 类型 | 描述 | 必须？| 默认
 ---- | ---- | ---- | ---- | ----
 workingPath | 字符串 | 临时结果的工作路径(Hadoop作业之间的结果) | 只能用于[命令行Hadoop Indexer](#!/ingestion/command-line-hadoop-indexer) | /tmp/druid-indexing
-version | 字符串 | 创建的segment的版本号，除非`useExplicitVersion`设为`true`，否则HadoopIndexTask会忽略这个配置 | 否 | indexing服务开始的时间
+version | 字符串 | 创建的segment的版本号，除非`useExplicitVersion`设为`true`，否则HadoopIndexTask会忽略这个配置 | 否 | 索引服务开始的时间
 partitionsSpec | JSON | 定义怎么分割每个时间桶到segment。不指定表示不分区。详情请看下方**分区配置** | 否 | hashed
 maxRowsInMemory | 整数 | 持久化前的数据行数，由于rollup这个行数不一定等于输入数据的行数。这个配置用来控制JVM堆内存空间 | 否 | 75,000
 leaveIntermediate | 布尔型 | 作业完成后，无论成功与否，中间文件(可用于调试)是否保留 | 否 | false
@@ -141,10 +141,10 @@ overwriteFiles | 布尔型 | 作业创建的文件如果已经存在是否覆盖
 ignoreInvalidRows | 布尔型 | 是否忽略有问题的行 | 否 | false
 combineText | 布尔型 | 使用`CombineTextInputFormat`合并多个文件到一个新文件，可对加速那种操作多个小文件的hadoop作业 | 否 | false
 useCombiner | 布尔型 | Mapper阶段是否使用Combiner | 否 | false
-jobProperties | JSON | 添加到Hadoop作业配置，详情请看下面 | 否 | 
+jobProperties | JSON | 添加到Hadoop作业配置，详情请看下面 | 否 |
 indexSpec | JSON | 调整输入导入方式，详情请看下面 | 否 |
 numBackgroundPersistThreads | 整数 | 用于incremental持久化模型中的后台线程数量。会带来显著的内存和cpu使用量，但也会使作业完成得更快。0表示使用当前线程来持久化，我们推荐设置为1 | 否 | 0
-forceExtendableShardSpecs | 布尔型 | 强制使用 `extendable` 的 `shardSpecs` 配置。旨在与[Kafka indexing服务扩展](/TODO)一起使用的实验功能。| 否 | false
+forceExtendableShardSpecs | 布尔型 | 强制使用 `extendable` 的 `shardSpecs` 配置。旨在与[Kafka索引服务扩展](/TODO)一起使用的实验功能。| 否 | false
 useExplicitVersion | 布尔型 | 强制HadoopIndexTask使用版本号 | 否 | false
 
 #### jobProperties
@@ -157,7 +157,8 @@ useExplicitVersion | 布尔型 | 强制HadoopIndexTask使用版本号 | 否 | fa
      }
    }
 ```
-Hadoop的[MapReduce文档](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml)列举了一些可用的配置参数。  
+Hadoop的[MapReduce文档](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml)列举了一些可用的配置参数。
+
 一些Hadoop发行版可能需要设置 `mapreduce.job.classpath` 或者 `mapreduce.job.user.classpath.first` 来排除类加载问题。详情请看[如何在不同的Hadoop版本的环境工作](/TODO)
 
 #### IndexSpec
@@ -188,7 +189,7 @@ segment通常基于时间戳(根据`granularitySpec`)来分区，也可以根据
 - **hashed**，基于每一行所有维度一起的hash
 - **dimension**，基于某单个维度的范围
 
-大多情况下推荐hashed分区，相比单个维度的分区策略，hashed分区能提升indexing的效率和创建更多统一大小的segment。
+大多情况下推荐hashed分区，相比单个维度的分区策略，hashed分区能提升索引的效率和创建更多统一大小的segment。
 
 #### 基于hash的分区
 ```
@@ -197,7 +198,8 @@ segment通常基于时间戳(根据`granularitySpec`)来分区，也可以根据
      "targetPartitionSize": 5000000
    }
 ```
-hashed分区首先选择一个segment数量，然后每一个根据所有维度的hash值来分配。segment数量基于数据集的大小和一个目标分区数量来确定。  
+hashed分区首先选择一个segment数量，然后每一个根据所有维度的hash值来分配。segment数量基于数据集的大小和一个目标分区数量来确定。
+
 配置选项:
 
 属性 | 描述 | 必须?
@@ -214,7 +216,8 @@ partitionDimensions | 选择用于hash的维度，默认选择所有。只在 `n
      "targetPartitionSize": 5000000
    }
 ```
-单维度分区首先选择一个维度来确定分区，然后把这个维度分开成连续的多个区间。每个segment就包括了所有的这个维度落在对应区间的数据行。例如你的segment根据 `host` 维度分区，然后被分成 `a.example.com` 到 `f.example.com` 和 `f.example.com` 到 `z.example` 两个区间。默认情况下会自动选择一个列，或者你可以自定义来覆盖他。  
+单维度分区首先选择一个维度来确定分区，然后把这个维度分开成连续的多个区间。每个segment就包括了所有的这个维度落在对应区间的数据行。例如你的segment根据 `host` 维度分区，然后被分成 `a.example.com` 到 `f.example.com` 和 `f.example.com` 到 `z.example` 两个区间。默认情况下会自动选择一个列，或者你可以自定义来覆盖他。
+
 配置选项：
 
 属性 | 描述 | 必须?
@@ -226,7 +229,8 @@ partitionDimensions | 选择用于hash的维度，默认选择所有。只在 `n
 assumeGrouped | 假设数据已经按照时间和维度分组。导入效率会提高，但是跟假设有冲突会选择次优的分区 | 否
 
 ### 远端Hadoop集群
-如果你有一个远端的Hadoop集群，请确保Druid的 `_common` 配置目录包含了集群的 `*.xml` 相关配置文件。  
+如果你有一个远端的Hadoop集群，请确保Druid的 `_common` 配置目录包含了集群的 `*.xml` 相关配置文件。
+
 如果你遇到了Hadoop版本和Druid版本之间的依赖问题，请查看[这个文档](/TODO)
 
 ### 使用弹性的MapReduce
@@ -263,5 +267,6 @@ druid.hadoop.security.kerberos.keytab | /etc/security/keytabs/druid.headlessUser
 注意这里用的是Hadoop内置的S3文件系统，而不是亚马逊的EMRFS，也和Amazon特定的功能如S3加密和一致视图不兼容。如果你需要使用这些功能，你需要根据下面的文档的一个机制使得亚马逊的EMR Hadoop JAR包对于Druid可用。
 
 ### 使用其他Hadoop发行版
-Druid可以在多种Hadoop发行版工作  
+Druid可以在多种Hadoop发行版工作
+
 如果你在Druid和Hadoop版本之间出现依赖冲突，你可以试着在[Druid用户组](https://groups.google.com/forum/#!forum/druid-%0Auser)查询解决方法，或者阅读[不同的Hadoop版本文档](/TODO)。

@@ -51,7 +51,8 @@ Druid的进程可以单独部署(每个进程单独一个物理服务器，虚�
 - [**元数据存储**](#!/design#metadata-storage)。共享元数据存储。通常会使用传统的RDBMS(关系型数据库管理系统), 如PostgreSQL或者MySQL。
 - [**ZooKeeper**](#!/design#zookeeper)。用于内部服务发现、协作和主节点选举。
 
-这套架构背后的思路就是使得线上Druid集群方便扩展。例如，深度存储和元数据存储的分离意味着Druid进程完全地实现容错——即使单个Druid节点失败，你还能够重新分别根据深度存储和元数据存储的数据来启动你的集群。  
+这套架构背后的思路就是使得线上Druid集群方便扩展。例如，深度存储和元数据存储的分离意味着Druid进程完全地实现容错——即使单个Druid节点失败，你还能够重新分别根据深度存储和元数据存储的数据来启动你的集群。
+
 下图展示了一个请求来到时这个架构的数据流向：
 ![](http://druid.io/docs/img/druid-architecture.png)
 
@@ -69,7 +70,8 @@ Druid数据保存在"datasource"，类似于传统关系型数据库的表(Table
 segment会周期第进行提交和生成。这个时候他们会写到深度存储，变成不能修改，从Historical进程移到MiddleManagers进程。segment的记录也更新到元数据存储。这个记录描述segment的结构、大小和在深度存储的坐标。这些记录是告诉Coordinator进程数据在集群的哪里。
 
 ### 查询过程
-查询请求首先会进到Broker，Broker会根据时间或者datasource额外设的属性来分析需要哪些segment。然后分析这些segment分别是由Historical或者MiddleManager进程来处理，进而发起子查询给对应的进程。Historical/MiddleManager进程接收子查询，处理和返回结果。Broker接收到这些结果后合并成一个最终的结果返回给调用者。  
+查询请求首先会进到Broker，Broker会根据时间或者datasource额外设的属性来分析需要哪些segment。然后分析这些segment分别是由Historical或者MiddleManager进程来处理，进而发起子查询给对应的进程。Historical/MiddleManager进程接收子查询，处理和返回结果。Broker接收到这些结果后合并成一个最终的结果返回给调用者。
+
 Broker裁剪是一个Druid限制扫描数据量的重要方法，但不是唯一方法。对于比Broker裁剪更细粒度的过滤，每个segment的索引结构允许Druid在查看所有行之前识别哪些(有的话)行匹配这些过滤器。一旦Druid知道哪些行匹配一个特定查询，就只需要访问特定的列。在这些列中，Druid可以逐行跳过，防止读到不匹配的列。
 因此Druid使用三种不同的技术来提供查询的效率：
 - 裁剪每个查询需要访问的segment
@@ -78,12 +80,15 @@ Broker裁剪是一个Druid限制扫描数据量的重要方法，但不是唯一
 
 ### 外部依赖
 ##### <a id="deep-storage" class="anchor">深度存储</a>
-Druid使用深度存储只是作为一个数据备份容器和各进程间的数据通路。对于查询的请求响应，Historical不会读深度存储，而是已经在查询处理前预加载至本地的segment。这意味着Druid不需要在查询时访问深度存储，使得查询的效率足够高。回过来也意味着在深度存储和跨Historical进程时，需要有足够的硬盘空间用于计划加载的数据。  
+Druid使用深度存储只是作为一个数据备份容器和各进程间的数据通路。对于查询的请求响应，Historical不会读深度存储，而是已经在查询处理前预加载至本地的segment。这意味着Druid不需要在查询时访问深度存储，使得查询的效率足够高。回过来也意味着在深度存储和跨Historical进程时，需要有足够的硬盘空间用于计划加载的数据。
+
 详情可查看[深度存储依赖](/TODO)
 ##### <a id="metadata-storage" class="anchor">元数据存储</a>
-元数据存储保存各种系统元数据，如segment可用性信息和任务信息。  
+元数据存储保存各种系统元数据，如segment可用性信息和任务信息。
+
 详情可查看[元数据存储依赖](/TODO)
 ##### <a id="zookeeper" class="anchor">Zookeeper</a>
-Druid使用zk来管理集群状态  
+Druid使用zk来管理集群状态
+
 详情可查看[zk依赖](/TODO)
 

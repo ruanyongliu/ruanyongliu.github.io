@@ -124,6 +124,20 @@ DocsTr = {
                             url: "ingestion/hadoop"
                         }
                     ]
+                },
+                {
+                    display: "流式导入",
+                    url: "ingestion/stream-ingestion",
+                    nav: [
+                        {
+                            display: "Kafka Indexing服务(流式拉取)",
+                            url: "development/extensions-core/kafka-ingestion"
+                        },
+                        {
+                            display: "流式推送",
+                            url: "ingestion/stream-push"
+                        }
+                    ]
                 }
             ]
         }
@@ -131,7 +145,9 @@ DocsTr = {
     pathTr: {
         "design": "设计",
         "tutorials": "教程",
-        "ingestion": "数据导入"
+        "ingestion": "数据导入",
+        "development": "开发",
+        "extensions-core": "扩展"
     },
     navPartElement: function(tree) {
         var ul = $("<ul class=\"nav nav-stacked\"></ul>")

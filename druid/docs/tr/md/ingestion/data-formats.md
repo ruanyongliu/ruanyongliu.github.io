@@ -1,4 +1,5 @@
-Druid可以将导入JSON、CSV、或者分隔符形式的TSV或者其他自定义格式的非规范化数据。虽然文档大部分例子使用的JSON格式，配置Druid导入其他格式的数据也不难。我们欢迎更多的给新格式适配的贡献。  
+Druid可以将导入JSON、CSV、或者分隔符形式的TSV或者其他自定义格式的非规范化数据。虽然文档大部分例子使用的JSON格式，配置Druid导入其他格式的数据也不难。我们欢迎更多的给新格式适配的贡献。
+
 更多的数据格式，请阅读我们的[扩展列表](/TODO)。
 
 ### 格式化数据
@@ -61,9 +62,11 @@ Druid支持自定义的数据格式，然后使用正则或者JavaScript解析�
   }
 ```
 ##### CSV索引任务
-如果你的输入文件包含一个头部，`columns`项可以不用设。但是需要把`hasHeaderRow`设为`true`，此时Druid会自动地提取出列的信息。相反，你就需要设置`columns`并且保证能顺序上一一对应你的输入数据。  
-同时你也可以在`parseSpec`设置`skipHeaderRows`。如果同时设置了`skipHeaderRows`和`hasHeaderRow`，`skipHeaderRows`会先执行。例如，如果`skipHeaderRows`设为`2`，`hasHeaderRow`设为true，Druid会先略过头两行，然后在第三行提取出列的信息。  
-`hasHeaderRow`和`skipHeaderRows`只作用在非Hadoop批处理index任务，否则会抛出异常。
+如果你的输入文件包含一个头部，`columns`项可以不用设。但是需要把`hasHeaderRow`设为`true`，此时Druid会自动地提取出列的信息。相反，你就需要设置`columns`并且保证能顺序上一一对应你的输入数据。
+
+同时你也可以在`parseSpec`设置`skipHeaderRows`。如果同时设置了`skipHeaderRows`和`hasHeaderRow`，`skipHeaderRows`会先执行。例如，如果`skipHeaderRows`设为`2`，`hasHeaderRow`设为true，Druid会先略过头两行，然后在第三行提取出列的信息。
+
+`hasHeaderRow`和`skipHeaderRows`只作用在非Hadoop批处理索引任务，否则会抛出异常。
 ##### 其他CSV导入任务
 `columns`必须设置并且保证能顺序上一一对应你的输入数据。
 #### TSV(分割的)
@@ -82,9 +85,11 @@ Druid支持自定义的数据格式，然后使用正则或者JavaScript解析�
 ```
 根据你的数据填写正确`delimiter`。跟CSV类型，你必须指明`columns`和那些列你需要用作索引列(指明**维度**)。
 ##### TSV(分割的)索引任务
-如果你的输入文件包含一个头部，`columns`项可以不用设。但是需要把`hasHeaderRow`设为`true`，此时Druid会自动地提取出列的信息。相反，你就需要设置`columns`并且保证能顺序上一一对应你的输入数据。  
-同时你也可以在`parseSpec`设置`skipHeaderRows`。如果同时设置了`skipHeaderRows`和`hasHeaderRow`，`skipHeaderRows`会先执行。例如，如果`skipHeaderRows`设为`2`，`hasHeaderRow`设为true，Druid会先略过头两行，然后在第三行提取出列的信息。  
-`hasHeaderRow`和`skipHeaderRows`只作用在非Hadoop批处理index任务，否则会抛出异常。
+如果你的输入文件包含一个头部，`columns`项可以不用设。但是需要把`hasHeaderRow`设为`true`，此时Druid会自动地提取出列的信息。相反，你就需要设置`columns`并且保证能顺序上一一对应你的输入数据。
+
+同时你也可以在`parseSpec`设置`skipHeaderRows`。如果同时设置了`skipHeaderRows`和`hasHeaderRow`，`skipHeaderRows`会先执行。例如，如果`skipHeaderRows`设为`2`，`hasHeaderRow`设为true，Druid会先略过头两行，然后在第三行提取出列的信息。
+
+`hasHeaderRow`和`skipHeaderRows`只作用在非Hadoop批处理索引任务，否则会抛出异常。
 ##### 其他TSV(分割的)导入任务
 `columns`必须设置并且保证能顺序上一一对应你的输入数据。
 #### 正则
@@ -121,5 +126,6 @@ Druid支持自定义的数据格式，然后使用正则或者JavaScript解析�
 基于JavaScript的功能默认是禁用的。请阅读[Druid JavaScript编程指南](/TODO)关于如何使用Druid JavaScript，包括如何开启他。
 </div>
 #### 多值维度。
-TSV和CVS数据中维度可能会有多个值。设置`parseSpec`的`listDelimiter`选项指定多值维度的分隔符。  
+TSV和CVS数据中维度可能会有多个值。设置`parseSpec`的`listDelimiter`选项指定多值维度的分隔符。
+
 JSON数据也可以包含多值维度。导入数据用一个JSON数组来包装这些多值的维度，不需要再`parseSpec`配置特殊注明。

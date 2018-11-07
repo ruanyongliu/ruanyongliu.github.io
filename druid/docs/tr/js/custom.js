@@ -138,6 +138,10 @@ DocsTr = {
                             url: "ingestion/stream-push"
                         }
                     ]
+                },
+                {
+                    display: "压缩任务",
+                    url: "ingestion/compaction"
                 }
             ]
         }

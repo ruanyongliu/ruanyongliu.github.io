@@ -12,7 +12,7 @@ Tranquility负责分区，备份，服务发现和架构翻转，无缝地并且
 ### Kafka索引服务(流式拉取)
 Druid使用Kakfa索引服务从kafka流拉取数据。
 
-Kafka索引服务可以在Overlord配置supervisor，通过管理Kakfa索引任务的创建和其声明周期来从Kafka完成导入。这个索引任务使用kafka原生的分区和偏移机制来读取事件，因此可以提供精确一次`exactly-once`的导入。他们还可以读取过去的事件，不受像其他导入机制那样的时间窗口限制。supervisor负责监督索引任务的状态，协调切换，管理错误，确保扩展和备份需求可维护。
+Kafka索引服务可以在Overlord配置supervisor，通过管理Kakfa索引任务的创建和其生命周期来从Kafka完成导入。这个索引任务使用kafka原生的分区和偏移机制来读取事件，因此可以提供精确一次`exactly-once`的导入。他们还可以读取过去的事件，不受像其他导入机制那样的时间窗口限制。supervisor负责监督索引任务的状态，协调切换，管理错误，确保扩展和备份需求可维护。
 
 请阅读[教程：从Kakfa加载流式数据](#!/tutorials/tutorial-kafka)
 

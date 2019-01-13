@@ -25,17 +25,34 @@
         <script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
         <script>
             var title = {
-                "kafka": "聊聊Kafka",
-                "playframework/quickstart": "快速搭建一个play服务",
-                "travel/singapore": "新加坡简单攻略",
-                "game/sen/_3": "闪之轨迹3攻略"
+                kafka: "聊聊Kafka",
+                playframework: {
+                    quickstart: "快速搭建一个play服务"
+                },
+                travel: {
+                    singapore: "新加坡简单攻略"
+                },
+                game: {
+                    sen: {
+                        c3: "闪之轨迹3攻略"
+                    }
+                },
+                get: function(hash) {
+                    var paths = hash.split("/")
+                    var result = title
+                    for (var i in paths) {
+                        result = result[paths[i]]
+                    }
+                    return result
+                }
             }
 
             $(document).ready(function(){
                 var hash = window.location.hash.substr(2).split("#", 2)
                 var hash0 = hash[0].startsWith("/") ? hash[0].substr(1) : hash[0]
-                $("title").text(title[hash0])
-                $(".title").text(title[hash0])
+                var t = title.get(hash0)
+                $("title").text(t)
+                $(".title").text(t)
 
                 var load = function(){
                     var hash = window.location.hash.substr(2).split("#", 2)
@@ -45,6 +62,9 @@
                         dataType: "html",
                         success: function(resp) {
                             $(".md-display").html(marked(resp))
+                            var t = title.get(hash0)
+                            $("title").text(t)
+                            $(".title").text(t)
                             if (hash[1]) {
                                 $(window).scrollTop($("#" + hash[1]).offset().top)
                             } else {

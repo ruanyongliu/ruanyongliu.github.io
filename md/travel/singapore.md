@@ -36,8 +36,13 @@
   1. 地铁回酒店
 
 ### 2/13
-
-_TODO 动物园_
+- 早上可以起晚一点, 午饭在酒店附近解决(_TODO_)
+- 大概12点出发:
+  1. 地铁 . 北南线(North South Line) . **Khatib** to **City Hall**
+  1. 地铁 . 东西线(East West Line) . **City Hall** to **Bugis**
+- 白天 白间动物园
+  - 表演留意一下
+- 晚上 晚间动物园
 
 ### 2/14
 

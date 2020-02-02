@@ -189,7 +189,7 @@ play.filters {
     #xssProtection = "1; mode=block"                   # X-XSS-Protection header.
     #contentTypeOptions = "nosniff"                    # X-Content-Type-Options header.
     #permittedCrossDomainPolicies = "master-only"      # X-Permitted-Cross-Domain-Policies header
-    contentSecurityPolicy = "default-src 'self' https://cdn.bootcss.com 'unsafe-inline'"  # Content-Security-Policy header.
+    contentSecurityPolicy = "default-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'"  # Content-Security-Policy header.
   }
 
   ## Allowed hosts filter configuration，hosts白名单
@@ -316,4 +316,3 @@ class MyController @Inject()(cc: ControllerComponents) extends AbstractControlle
 
 ##### 至此，服务应该就能成功启动了，默认端口为9000，访问host:9000即可。
 ###### 感谢阅读。文中不免有错的地方，欢迎指出。感谢！
-
